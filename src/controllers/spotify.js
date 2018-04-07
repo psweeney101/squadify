@@ -10,8 +10,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function (response) {
-            console.log("GET FEATURED PLAYLISTS:");
-            console.dir(response);
+            //console.log("GET FEATURED PLAYLISTS:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -25,8 +25,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function (response) {
-            console.log("GET NEW RELEASES:");
-            console.dir(response);
+            //console.log("GET NEW RELEASES:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -40,8 +40,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function (response) {
-            console.log("GET CATEGORIES:");
-            console.dir(response);
+            //console.log("GET CATEGORIES:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -55,8 +55,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET QUEUE PLAYLIST:");
-            console.dir(response.data);
+            //console.log("GET QUEUE PLAYLIST:");
+            //console.dir(response.data);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -70,8 +70,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET ALBUM:");
-            console.dir(response);
+            //console.log("GET ALBUM:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -85,8 +85,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET PLAYLIST:");
-            console.dir(response.data);
+            //console.log("GET PLAYLIST:");
+            //console.dir(response.data);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -100,8 +100,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET CATEGORY:");
-            console.dir(response);
+            //console.log("GET CATEGORY:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -115,8 +115,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET CATEGORY PLAYLISTS:");
-            console.dir(response);
+            //console.log("GET CATEGORY PLAYLISTS:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -130,8 +130,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET TRACK:");
-            console.dir(response);
+            //console.log("GET TRACK:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -145,8 +145,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET SAVED TRACKS:");
-            console.dir(response);
+            //console.log("GET SAVED TRACKS:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -160,8 +160,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET SAVED ALBUMS:");
-            console.dir(response);
+            //console.log("GET SAVED ALBUMS:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -175,8 +175,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET SAVED PLAYLISTS:");
-            console.dir(response);
+            //console.log("GET SAVED PLAYLISTS:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -190,8 +190,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET TOP TRACKS:");
-            console.dir(response);
+            //console.log("GET TOP TRACKS:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -205,8 +205,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET RECENTLY PLAYED:");
-            console.dir(response);
+            //console.log("GET RECENTLY PLAYED:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -220,8 +220,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("SEARCH:");
-            console.dir(response);
+            //console.log("SEARCH:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -235,8 +235,8 @@ var Spotify = {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }
         }).then(function(response) {
-            console.log("GET PROFILE");
-            console.dir(response);
+            //console.log("GET PROFILE");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function(error) {
             Spotify.handleError(error, Squadify, (newSquadify) => {
@@ -248,13 +248,13 @@ var Spotify = {
         if(error != null && error.response != null && error.response.data != null && error.response.data.error != null) {
             if(error.response.data.error.message === "The access token expired") {
                 Squadify.getNewAccessToken((newSquadify) => {
-                    //return cb(newSquadify);
+                    return cb(newSquadify);
                 });
             } else {
-                console.dir(error);
+                //console.dir(error);
             }
         } else {
-            console.dir(error);
+            //console.dir(error);
         }
     }
     

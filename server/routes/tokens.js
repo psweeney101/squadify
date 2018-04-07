@@ -17,6 +17,8 @@ module.exports = {
                 if (tokens.error) {
                     res.json(tokens);
                 } else {
+                    console.log("NEW TOKEN!");
+                    console.dir(tokens);
                     res.json({ access_token: tokens.body.access_token, refresh_token: req.body.refresh_token });
                 }
             })

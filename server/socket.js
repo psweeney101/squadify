@@ -69,6 +69,7 @@ exports = module.exports = function (io) {
                             });
                             Queue.findOneAndUpdate({ id: queue.id }, { $pull: { tracks: { context: { $not: /Queued/ } } } }, (err, doc, res) => {
                                 Queue.findOneAndUpdate({ id: queue.id }, { $addToSet: { tracks: playlist_tracks } }, { new: true }).populate("tracks.added_by", "id display_name avatar_url").exec((err, queue, res) => {
+                                    console.log(user.id + " added context " + playlist.body.uri);
                                     io.to(queue.id).emit("tracks updated", queue.tracks);
                                     io.to(queue.id).emit("context updated", playlist.body.uri, playlist.body.name);
                                 });
@@ -84,6 +85,7 @@ exports = module.exports = function (io) {
                 db.checkUser(Squadify.queue.id, Squadify.user.id, Squadify.user.server_token, (good, queue, user) => {
                     if (good) {
                         Queue.findOneAndUpdate({ id: queue.id }, { $pull: { tracks: { context: { $not: /Queued/ } } } }, {new: true}).populate("tracks.added_by", "id display_name avatar_url").exec((err, queue, res) => {
+                            console.log(user.id + " removed context");
                             io.to(queue.id).emit("tracks updated", queue.tracks);
                             io.to(queue.id).emit("context updated", null, null);
                         });
@@ -105,7 +107,6 @@ exports = module.exports = function (io) {
                 db.checkUser(Squadify.queue.id, Squadify.user.id, Squadify.user.server_token, (good, queue, user) => {
                     if (good && queue.host.id == user.id) {
                         User.findOne({ id: user_id }, (error, user_to_remove) => {
-                            console.log(user_to_remove.id);
                             if (error) throw error;
                             else if (user_to_remove != null) {
                                 queue.users.remove(user_to_remove);
@@ -167,6 +168,7 @@ exports = module.exports = function (io) {
                                 artist: track.body.artists[0] != null ? track.body.artists[0].name : null
                             });
                             queue.save((err, queue) => {
+                                console.log(user.id + " added up next " + id);
                                 io.to(queue.id).emit("tracks updated", queue.tracks);
                             })
                         })
@@ -250,13 +252,13 @@ exports = module.exports = function (io) {
                                             }
                                         }), 2000);
                                     } else {
-                                        console.log("HOST WENT INACTIVE! Error in Step 3");
+                                        console.log("HOST WENT INACTIVE! Error in Step 3 (player.error)");
                                         setInactive(queue.id, io);
                                         return;
                                     }
                                 });
                             } else {
-                                console.log("HOST WENT INACTIVE! Error in step 2");
+                                console.log("HOST WENT INACTIVE! Error in step 2 (error in update)");
                                 setInactive(queue.id, io);
                                 return;
                             }
@@ -290,7 +292,7 @@ function QueueManager(queue_id, interval_id, init_track_id, io, cb) {
             // STEP 2
             Spotify.Player.getCurrentPlayer(queue.host.access_token, queue.host.refresh_token, (player) => {
                 if (player == null || player.body == null || player.body.item == null || player.body.item.id != curr_track_id) {
-                    console.log("HOST WENT INACTIVE! Player null");
+                    console.log("HOST WENT INACTIVE! Player went to null OR different track");
                     setInactive(queue.id, io);
                     return cb(true, null);
                 } else {
@@ -310,19 +312,19 @@ function QueueManager(queue_id, interval_id, init_track_id, io, cb) {
                                         if (!play.error) {
                                             return cb(false, new_track_id);
                                         } else {
-                                            console.log("HOST WENT INACTIVE! Error in step 5");
+                                            console.log("HOST WENT INACTIVE! Error in step 5 (player.error)");
                                             setInactive(queue.id, io);
                                             return cb(true, null);
                                         }
                                     });
                                 } else {
-                                    console.log("HOST WENT INACTIVE! Error in step 4bb");
+                                    console.log("HOST WENT INACTIVE! Error in step 4bb (error in update)");
                                     setInactive(queue.id, io);
                                     return cb(true, null);
                                 }
                             });
                         } else {
-                            console.log("HOST WENT INACTIVE! Error in step 4ba");
+                            console.log("HOST WENT INACTIVE! Error in step 4ba (Out of tracks)");
                             setInactive(queue.id, io);
                             return cb(true, null);
                         }

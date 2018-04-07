@@ -12,11 +12,11 @@ var server = {
                 server_token: server_token
             }
         }).then(function (response) {
-            console.log("CHECK TOKENS:");
-            console.dir(response);
+            //console.log("CHECK TOKENS:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function (error) {
-            console.dir(error);
+            //console.dir(error);
         });
     },
     checkQueue: function (user_id, queue_id, server_token, cb) {
@@ -26,11 +26,11 @@ var server = {
                 server_token: server_token
             }
         }).then(function (response) {
-            console.log("CHECK QUEUE:");
-            console.dir(response);
+            //console.log("CHECK QUEUE:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function (error) {
-            console.dir(error);
+            //console.dir(error);
         });
     },
     joinQueue: function (Squadify, queue_id, cb) {
@@ -38,11 +38,11 @@ var server = {
             user_id: Squadify.user.id,
             server_token: Squadify.user.server_token
         }).then(function (response) {
-            console.log("JOIN QUEUE:");
-            console.dir(response);
+            //console.log("JOIN QUEUE:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function (error) {
-            console.dir(error);
+            //console.dir(error);
         });
     },
     getDevices: function (Squadify, cb) {
@@ -52,11 +52,11 @@ var server = {
                 server_token: Squadify.user.server_token
             }
         }).then(function (response) {
-            console.log("GET DEVICES:");
-            console.dir(response);
+            //console.log("GET DEVICES:");
+            //console.dir(response);
             return cb(response.data);
         }).catch(function (error) {
-            console.dir(error);
+            //console.dir(error);
         });
     },
     getQueues: function (Squadify, cb) {
@@ -66,10 +66,10 @@ var server = {
                 server_token: Squadify.user.server_token
             }
         }).then(function (response) {
-            console.dir(response);
+            //console.dir(response);
             return cb(response.data);
         }).catch(function (error) {
-            console.dir(error);
+            //console.dir(error);
         });
     },
     createQueue: function (Squadify, name, cb) {
@@ -78,11 +78,11 @@ var server = {
             server_token: Squadify.user.server_token,
             name: name
         }).then(function (response) {
-            console.dir(response);
+            //console.dir(response);
             return cb(response.data);
         }).catch(function (error) {
-            console.log("CREATE QUEUE:");
-            console.dir(error);
+            //console.log("CREATE QUEUE:");
+            //console.dir(error);
         });
     },/*
     getUsers: function (user_id, queue_id, server_token, cb) {
@@ -140,10 +140,10 @@ var server = {
         axios.post(url + '/api/tokens/refresh', {
             refresh_token: refresh_token
         }).then(function (response) {
-            console.dir(response);
+            //console.dir(response);
             return cb(response.data);
         }).catch(function (error) {
-            console.dir(error);
+            //console.dir(error);
         });
     }
 }

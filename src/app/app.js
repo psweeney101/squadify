@@ -18,7 +18,7 @@ class App extends React.Component {
         this.squadify = new Squadify(props.Squadify);
         this.squadify.setState = (newSquadify) => {
             this.setState({ Squadify: newSquadify });
-            console.dir(newSquadify);
+            //console.dir(newSquadify);
         };
         socket = openSocket(Server.url);
         this.state = {
@@ -29,16 +29,16 @@ class App extends React.Component {
         socket.emit("join", props.Squadify);
         // GET INIT QUEUE INFO
         socket.on("joined", (info) => {
-            console.log("SOCKET INIT:");
+            //console.log("SOCKET INIT:");
             this.state.Squadify.setInfo(info);
         });
         socket.on("status updated", (status) => {
-            console.log("STATUS UPDATE:");
+            //console.log("STATUS UPDATE:");
             this.state.Squadify.setStatus(status);
         });
         socket.on("users updated", (users) => {
-            console.log("USER UPDATE:");
-            console.dir(users);
+            //console.log("USER UPDATE:");
+            //console.dir(users);
             if(!this.state.Squadify.isHost()) {
                 if(!users.some(e => e === this.state.Squadify.user.id)) {
                     alert("You've been kicked!");
@@ -48,11 +48,11 @@ class App extends React.Component {
             this.state.Squadify.setUsers(users);
         });
         socket.on("tracks updated", (tracks) => {
-            console.log("TRACKS UPDATE:");
+            //console.log("TRACKS UPDATE:");
             this.state.Squadify.setTracks(tracks);
         });
         socket.on("player updated", (player) => {
-            console.log("PLAYER UPDATE:");
+            //console.log("PLAYER UPDATE:");
             this.state.Squadify.setPlayer(player);
         })
     }

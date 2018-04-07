@@ -25,6 +25,7 @@ module.exports = {
                         if (error) throw error;
                         else if (!queue) res.json({ error: true, why: "Error creating queue" });
                         else {
+                            console.log("Created queue with ID: " + queue.id);
                             res.json(queue);
                         }
                     })
