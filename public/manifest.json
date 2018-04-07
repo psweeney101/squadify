@@ -11,6 +11,5 @@
   "start_url": "../client/public/index.html",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "proxy": "10.186.83.66:4200"
+  "background_color": "#ffffff"
 }
