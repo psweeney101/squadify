@@ -17,10 +17,10 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-/*app.use("/", express.static("./build"));
+app.use("/", express.static("./build"));
 app.use("/queues", express.static("./build"));
 app.use("/queue/:queue_id", express.static("./build"));
-app.use("/logout", express.static("./build"));*/
+app.use("/logout", express.static("./build"));
 
 var server = require("http").Server(app);
 var io = require("socket.io").listen(server);
