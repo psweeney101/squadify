@@ -1,4 +1,4 @@
-var Spotify = require("./Spotify.js");
+var Spotify = require("./spotify.js");
 var db = require("./mongo");
 var Queue = require("./queue");
 var User = require("./user");
