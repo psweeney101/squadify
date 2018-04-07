@@ -25,7 +25,6 @@ class App extends React.Component {
             Squadify: this.squadify,
             Socket: socket
         }
-        this.isFocused = true;
         // INIT SOCKET CONNECTION
         socket.emit("join", props.Squadify);
         // GET INIT QUEUE INFO
@@ -57,8 +56,9 @@ class App extends React.Component {
             //console.log("PLAYER UPDATE:");
             this.state.Squadify.setPlayer(player);
         });
+        this.isFocused = true;
         window.onfocus = () => {
-            if(!this.isFocused) {
+            if(this.isFocused === false && this.isFocused != null) {
                 alert("Welcome back");
                 socket.emit("join", props.Squadify);
                 this.isFocused = true;
