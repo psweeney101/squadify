@@ -16,6 +16,7 @@ module.exports = {
      * @return cookie, redirect to queue or queues
      */
     callback: function (req, res) {
+        console.log("LOGGING IN!!");
         if (req.query.code) {
             Spotify.Tokens.fetchTokens(req.query.code, (tokens) => {
                 if (tokens.error || tokens.body == null) {
@@ -32,7 +33,7 @@ module.exports = {
                                     access_token: tokens.body.access_token,
                                     refresh_token: tokens.body.refresh_token,
                                     server_token: user.server_token
-                                }, {path: "/", domain: null});
+                                }, {path: "/", domain: "squadify.herokuapp.com"});
                                 console.dir(req.universalCookies.getAll());
                                 db.getQueuesForUser(user, (queues) => {
                                     if (queues[0] == null) {
