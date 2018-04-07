@@ -29,7 +29,7 @@ class App extends React.Component {
         socket.emit("join", props.Squadify);
         // GET INIT QUEUE INFO
         socket.on("joined", (info) => {
-            alert("welcome!");
+            console.log("welcome!");
             //console.log("SOCKET INIT:");
             this.state.Squadify.setInfo(info);
         });
@@ -59,7 +59,7 @@ class App extends React.Component {
         this.isFocused = true;
         window.onfocus = () => {
             if(this.isFocused === false && this.isFocused != null) {
-                alert("Welcome back");
+                console.log("welcome back");
                 socket.emit("join", props.Squadify);
                 this.isFocused = true;
             }
