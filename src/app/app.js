@@ -25,6 +25,7 @@ class App extends React.Component {
             Squadify: this.squadify,
             Socket: socket
         }
+        this.isFocused = true;
         // INIT SOCKET CONNECTION
         socket.emit("join", props.Squadify);
         // GET INIT QUEUE INFO
@@ -57,8 +58,14 @@ class App extends React.Component {
             this.state.Squadify.setPlayer(player);
         });
         window.onfocus = () => {
-            alert("Welcome back");
-            socket.emit("join", props.Squadify);
+            if(!this.focus) {
+                alert("Welcome back");
+                socket.emit("join", props.Squadify);
+                this.focus = true;
+            }
+        }
+        window.onblur = () => {
+            this.focus = false;
         }
     }
     render() {

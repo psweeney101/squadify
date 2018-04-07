@@ -36,7 +36,7 @@ class User extends React.Component {
                     </div>
                     <Modal size={"mini"} open={this.state.open} onClose={this.close} closeIcon={true}>
                         <Modal.Header>
-                            Remove {this.state.profile.display_name != null ? this.state.profile.display_name : this.state.profile.id} from {this.props.Squadify.queue.name}
+                            Remove {this.props.user.display_name != null ? this.props.user.display_name : this.props.user.id} from {this.props.Squadify.queue.name}
                         </Modal.Header>
                         <Modal.Content>
                             <p>Are you sure you want to remove {this.props.user.display_name != null ? this.props.user.display_name : this.props.user.id} from {this.props.Squadify.queue.name}?</p>
