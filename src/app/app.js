@@ -58,14 +58,14 @@ class App extends React.Component {
             this.state.Squadify.setPlayer(player);
         });
         window.onfocus = () => {
-            if(!this.focus) {
+            if(!this.isFocused) {
                 alert("Welcome back");
                 socket.emit("join", props.Squadify);
-                this.focus = true;
+                this.isFocused = true;
             }
         }
         window.onblur = () => {
-            this.focus = false;
+            this.isFocused = false;
         }
     }
     render() {
