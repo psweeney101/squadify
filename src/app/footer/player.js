@@ -28,7 +28,10 @@ class Player extends React.Component {
 
 var row = {
     padding: "0 0 0 0",
-    height: "40px"
+    height: "40px",
+    borderBottomStyle: "solid",
+    borderBottomWidth: "1px",
+    borderBottomColor: "#888"
 }
 
 var column = {

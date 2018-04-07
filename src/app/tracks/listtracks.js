@@ -11,10 +11,10 @@ class ListTracks extends React.Component {
                             <i className="large ui angle left icon" onClick={this.props.pages.removePage.bind()} />
                         </div>
                         <div className="twelve wide column" style={column}>
-                            <h3>All Songs</h3>
+                            <h3>{this.props.title}</h3>
                         </div>
                     </div>
-                    {this.props.tracks.map((track) => <ListTrack Squadify={this.props.Squadify} socket={this.props.socket} pages={this.props.pages} track={track} key={track.id} />)}
+                    {this.props.tracks.map((track, index) => <ListTrack Squadify={this.props.Squadify} socket={this.props.socket} pages={this.props.pages} track={track} key={index + ":" + track.id} />)}
                 </div>
             </div>
         );

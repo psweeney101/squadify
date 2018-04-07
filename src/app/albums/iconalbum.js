@@ -5,32 +5,20 @@ import noImage from '../../images/missingCoverArt.png';
 class IconAlbum extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            album: null
-        };
-        props.Squadify.getAlbum(props.id, (album) => {
-            this.setState({ album: album });
-        });
         this.onClick = () => {
             props.pages.addPage(
-                <ShowAlbum owner_id={props.owner_id} id={props.id} Squadify={props.Squadify} socket={props.socket} pages={props.pages} />
+                <ShowAlbum id={props.album.id} Squadify={props.Squadify} socket={props.socket} pages={props.pages} />
             )
         }
     }
     render() {
-        if (this.state.album != null) {
-            let imageUrl = null;
-            if (this.state.album.images[0] != null) {
-                imageUrl = this.state.album.images[0].url;
-            } else {
-                imageUrl = noImage;
-            }
+        if (this.props.album != null) {
             return (
                 <div style={column}>
                     <div style={albumBox} onClick={this.onClick.bind()}>
-                        <img style={image} className="tiny ui image" src={imageUrl} alt="Album" />
-                        <span style={playlist}>{this.state.album.name}</span> <br />
-                        <span style={artist}>{this.state.album.artists[0].name}</span>
+                        <img style={image} className="tiny ui image" src={this.props.album.images[0] != null ? this.props.album.images[0].url : noImage } alt="Album" />
+                        <span style={playlist}>{this.props.album.name}</span> <br />
+                        <span style={artist}>{this.props.album.artists[0].name}</span>
                     </div>
                 </div>
             )

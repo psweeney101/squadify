@@ -22,8 +22,8 @@ class login extends React.Component {
 }
 
 function redirectToSpotify() {
-    var scopes = 'user-read-private user-read-email playlist-modify-public playlist-modify-private user-read-playback-state user-modify-playback-state user-library-read';
-    var params = ''
+    var scopes = "user-read-private user-read-playback-state user-modify-playback-state user-library-read user-top-read user-read-recently-played";
+    var params = ""
         + 'response_type=' + encodeURIComponent('code')
         + '&client_id=' + encodeURIComponent('e9b8be288fa74164b0d370ee86697bcd')
         + '&scope=' + encodeURIComponent(scopes)

@@ -6,20 +6,23 @@ class User extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            profile: null,
             open: false
         };
-        props.Squadify.getProfile(props.id, (profile) => {
-            this.setState({ profile: profile });
-        });
         this.open = () => {
-            this.setState({ open: true });
+            if(props.Squadify.isHost()) {
+                this.setState({ open: true });
+            }
+            
         }
         this.close = () => {
-            this.setState({ open: false });
+            if(props.Squadify.isHost()) {
+                this.setState({ open: false });
+            }
         }
         this.kick = () => {
-            props.socket.emit("kick user", props.Squadify, props.id);
+            if(props.Squadify.isHost()) {
+                props.socket.emit("kick user", props.Squadify, props.user.id);
+            }
         }
     }
 

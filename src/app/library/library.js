@@ -20,7 +20,9 @@ class Library extends React.Component {
             playlists: {
                 items: []
             },
-            Squadify: this.props.Squadify
+            recentlyPlayedTracks: {
+                items: []
+            }
         };
         this.pages = {
             addPage: (page) => {
@@ -43,6 +45,29 @@ class Library extends React.Component {
         props.Squadify.getSavedPlaylists((playlists) => {
             this.setState({ playlists: playlists });
         });
+        props.Squadify.getRecentlyPlayedTracks((recentlyPlayedTracks) => {
+            this.setState({ recentlyPlayedTracks: recentlyPlayedTracks });
+        });
+        this.allTracks = () => {
+            this.pages.addPage(
+                <ListTracks Squadify={props.Squadify} socket={props.socket} pages={this.pages} tracks={this.state.tracks.items.map((item) => { return item.track })} title={"Your Tracks"} />
+            );
+        }
+        this.allAlbums = () => {
+            this.pages.addPage(
+                <ListAlbums Squadify={props.Squadify} socket={props.socket} pages={this.pages} albums={this.state.albums.items.map((item) => { return item.album })} title={"Your Albums"} />
+            )
+        }
+        this.allPlaylists = () => {
+            this.pages.addPage(
+                <ListPlaylists Squadify={props.Squadify} socket={props.socket} pages={this.pages} playlists={this.state.playlists.items} title={"Your Playlists"} />
+            )
+        }
+        this.allRecentlyPlayedTracks = () => {
+            this.pages.addPage(
+                <ListTracks Squadify={props.Squadify} socket={props.socket} pages={this.pages} tracks={this.state.recentlyPlayedTracks.items.map((item) => { return item.track })} title={"Your Recently Played Tracks"} />
+            )
+        }
 
     }
     changePage = (newPage, newData) => {
@@ -53,34 +78,19 @@ class Library extends React.Component {
     }
 
     render() {
-        this.allTracks = () => {
-            this.pages.addPage(
-                <ListTracks Squadify={this.state.Squadify} socket={this.props.socket} pages={this.pages} tracks={this.state.tracks.items.map((item) => { return item.track })} />
-            );
-        }
-        this.allAlbums = () => {
-            this.pages.addPage(
-                <ListAlbums Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} albums={this.state.albums.items.map((item) => { return item.album })} />
-            )
-        }
-        this.allPlaylists = () => {
-            this.pages.addPage(
-                <ListPlaylists Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} playlists={this.state.playlists.items} />
-            )
-        }
         return (
             <div style={{ display: (this.props.Squadify.page === 4 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
                 <div style={{ display: this.state.pages.length === 0 ? "block" : "none" }} >
                     <div style={wrapper}>
                         <br />
                         <div>
-                            <h3 style={category}>Your Songs</h3>
+                            <h3 style={category}>Your Tracks</h3>
                             <div className="ui grid" style={grid}>
                                 {this.state.tracks.items.slice(0, 4).map((item) => <ListTrack Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} track={item.track} key={item.track.id} />)}
                                 <div className="row" onClick={this.allTracks.bind()}>
                                     <div className="fourteen wide column">
-                                        See all songs
-                                </div>
+                                        See all tracks
+                                    </div>
                                     <div className="two wide column" style={column}>
                                         <i className="large ui angle right icon" />
                                     </div>
@@ -93,25 +103,46 @@ class Library extends React.Component {
                                 <div className="row" onClick={this.allAlbums.bind()}>
                                     <div className="fourteen wide column">
                                         See all albums
-                                </div>
+                                    </div>
                                     <div className="two wide column" style={column}>
                                         <i className="large ui angle right icon" />
                                     </div>
                                 </div>
                             </div>
-                            <br />
-                            <h3 style={category}>Your Playlists</h3>
-                            <div className="ui grid" style={grid}>
-                                {this.state.playlists.items.slice(0, 4).map((playlist) => <ListPlaylist Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} playlist={playlist} key={playlist.id} />)}
-                                <div className="row" onClick={this.allPlaylists.bind()}>
-                                    <div className="fourteen wide column">
-                                        See all playlists
-                            </div>
-                                    <div className="two wide column" style={column}>
-                                        <i className="large ui angle right icon" />
+                            {this.state.playlists.items.length === 0 ? null :
+                                <div>
+                                    <br />
+                                    <h3 style={category}>Your Playlists</h3>
+                                    <div className="ui grid" style={grid}>
+                                        {this.state.playlists.items.slice(0, 4).map((playlist) => <ListPlaylist Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} playlist={playlist} key={playlist.id} />)}
+                                        <div className="row" onClick={this.allPlaylists.bind()}>
+                                            <div className="fourteen wide column">
+                                                See all playlists
+                                    </div>
+                                            <div className="two wide column" style={column}>
+                                                <i className="large ui angle right icon" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            {this.state.playlists.items.length === 0 ? null :
+                                <div>
+                                    <br />
+                                    <h3 style={category}>Your Recently Played Tracks</h3>
+                                    <div className="ui grid" style={grid}>
+                                        {this.state.recentlyPlayedTracks.items.slice(0, 4).map((item, index) => <ListTrack Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} track={item.track} key={index + ":" + item.track.id} />)}
+                                        <div className="row" onClick={this.allRecentlyPlayedTracks.bind()}>
+                                            <div className="fourteen wide column">
+                                                See all recently played tracks
+                                                </div>
+                                            <div className="two wide column" style={column}>
+                                                <i className="large ui angle right icon" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

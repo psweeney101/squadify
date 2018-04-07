@@ -5,26 +5,20 @@ import noImage from '../../images/missingCoverArt.png';
 class IconPlaylist extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            playlist: null
-        };
-        props.Squadify.getPlaylist(props.owner_id, props.id, (playlist) => {
-            this.setState({ playlist: playlist });
-        });
         this.onClick = () => {
             props.pages.addPage(
-                <ShowPlaylist owner_id={props.owner_id} id={props.id} Squadify={props.Squadify} socket={props.socket} pages={props.pages} />
+                <ShowPlaylist owner_id={props.playlist.owner.id} id={props.playlist.id} Squadify={props.Squadify} socket={props.socket} pages={props.pages} />
             );
         }
     }
     render() {
-        if (this.state.playlist != null) {
+        if (this.props.playlist != null) {
             return (
                 <div style={column}>
                     <div style={playlistBox} onClick={this.onClick.bind()}>
-                        <img style={image} className="tiny ui image" src={this.state.playlist.images[0] != null ? this.state.playlist.images[0].url : noImage} alt="Playlist" />
-                        <span style={playlist}>{this.state.playlist.name}</span> <br />
-                        <span style={user}>{this.state.playlist.tracks.total.toLocaleString()} TRACKS</span>
+                        <img style={image} className="tiny ui image" src={this.props.playlist.images[0] != null ? this.props.playlist.images[0].url : noImage} alt="Playlist" />
+                        <span style={playlist}>{this.props.playlist.name}</span> <br />
+                        <span style={user}>{this.props.playlist.tracks.total.toLocaleString()} TRACKS</span>
                     </div>
                 </div>
             );

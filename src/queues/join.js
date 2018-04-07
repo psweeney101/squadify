@@ -41,7 +41,7 @@ class Join extends React.Component {
                         <div className="ui form">
                             <div className="field">
                                 <label>Queue Pin</label>
-                                <input type="text"  value={this.state.pin} onChange={this.handleChange} />
+                                <input type="text" style={input} value={this.state.pin} onChange={this.handleChange} />
                             </div>
                         </div>
                         <br />
@@ -54,3 +54,7 @@ class Join extends React.Component {
 }
 
 export default Join;
+
+var input = {
+    textTransform: "uppercase"
+}

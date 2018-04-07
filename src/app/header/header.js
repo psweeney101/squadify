@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../../images/logo.png'
 import spotifyLogo from "../../images/spotify-logo.png";
+import Popup from "./popup";
 
 var pageNames = {
     0: "Home",
@@ -14,17 +15,15 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            avatar: spotifyLogo
+            popup: false
         }
-        props.Squadify.getProfile(props.Squadify.user.id, (profile) => {
-            if(profile.images[0] != null) {
-                this.setState({
-                    avatar: profile.images[0].url
-                });
-            }
-        });
         this.goToQueues = () => {
             window.location.href = "/queues";
+        }
+        this.popup = () => {
+            this.setState({
+                popup: !this.state.popup
+            })
         }
     }
     render() {
@@ -32,7 +31,7 @@ class Header extends React.Component {
             <div className="ui grid" style={wrapper}>
                 <div className="row" style={row}>
                     <div className="four wide column">
-                        <img style={logoStyle} onClick={this.goToQueues.bind()} src={logo} alt="logo"/>
+                        <img style={logoStyle} onClick={this.goToQueues.bind()} src={logo} alt="logo" />
                     </div>
                     <div className="eight wide column" style={column}>
                         <div style={content}>
@@ -41,10 +40,11 @@ class Header extends React.Component {
                             <span style={name}>{this.props.Squadify.queue.name}</span>
                         </div>
                     </div>
-                    <div className="four wide column">
-                        <img className="mini ui circular image" style={logoStyle} src={this.state.avatar} alt="playlist"/>
+                    <div className="four wide column" onClick={this.popup}>
+                        <img className="mini ui circular image" style={logoStyle} src={this.props.Squadify.user.avatar_url != null ? this.props.Squadify.user.avatar_url : spotifyLogo} alt="playlist" />
                     </div>
                 </div>
+                <Popup Squadify={this.props.Squadify} socket={this.props.socket} />
             </div>
         );
     }
@@ -60,12 +60,14 @@ var wrapper = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: "0 0 0 0"
+    margin: "auto"
 }
 
 var row = {
     padding: "0 0 0 0",
-    height: "100%"
+    height: "100%",
+    width: "100%",
+    maxWidth: "700px"
 }
 
 var column = {

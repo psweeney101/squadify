@@ -7,11 +7,9 @@ class Queue {
         this.id = queue_id;
         // Socket init
         this.status = null;
-        this.pin = null;
         this.host = null;
         this.users = null;
         this.name = null;
-        // Socket
         this.tracks = null;
         // Socket loop
         this.player = null;

@@ -3,11 +3,11 @@ var Queue = require('./queue.js');
 var randtoken = require('rand-token');
 
 var db = {
-    createUser(id, access_token, refresh_token, cb) {
+    createUser(id, display_name, images, access_token, refresh_token, cb) {
         User.findOne({ id: id }, function (error, user) {
             if (error) throw error;
             else if (user) {
-                User.findOneAndUpdate({ id: id }, { access_token: access_token, refresh_token: refresh_token }, {new: true}, function (error, user, response) {
+                User.findOneAndUpdate({ id: id }, { access_token: access_token, refresh_token: refresh_token, display_name: display_name, avatar_url: images[0] != null ? images[0].url : null }, {new: true}, function (error, user, response) {
                     return cb(user);
                 })
             } else {
@@ -15,7 +15,9 @@ var db = {
                     id: id,
                     access_token: access_token,
                     refresh_token: refresh_token,
-                    server_token: randtoken.generate(32)
+                    server_token: randtoken.generate(32),
+                    display_name: display_name,
+                    avatar_url: images[0] != null ? images[0].url : null
                 });
                 newUser.save(function (error, user) {
                     if (error) throw error;

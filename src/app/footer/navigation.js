@@ -46,13 +46,15 @@ class Navigation extends React.Component {
 
 var row = {
     padding: "0 0 0 0",
-    height: "60px"
+    height: "60px",
+    margin: "auto",
+    maxWidth: "700px",
 }
 
 var column = {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
 }
 
 var nameOff = {

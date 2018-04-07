@@ -2,12 +2,12 @@ import React from 'react';
 import { Modal } from 'semantic-ui-react';
 import server from "../controllers/server";
 
-class Join extends React.Component {
+class Create extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false,
-            pin: "",
+            name: "",
             disabled: false
         }
         this.open = () => {
@@ -18,14 +18,14 @@ class Join extends React.Component {
         }
         this.handleChange = (e) => {
             this.setState({
-                pin: e.target.value
+                name: e.target.value
             })
         }
         this.create = () => {
             this.setState({ disabled: true });
-            server.createQueue(this.props.Squadify, this.state.createName, (response) => {
-                if (response.queue_id) {
-                    window.location.href = "/queue/"// + response.queue.id;
+            server.createQueue(props.Squadify, this.state.name, (response) => {
+                if (response.id != null) {
+                    window.location.href = "/queue/" + response.id;
                 }
             })
         }
@@ -54,4 +54,4 @@ class Join extends React.Component {
     }
 }
 
-export default Join;
+export default Create;

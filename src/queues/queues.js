@@ -3,6 +3,7 @@ import logo from '../images/logo.png';
 import Join from "./join";
 import Current from "./current";
 import Create from "./create";
+import Logout from "./logout";
 
 class THIS extends React.Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class THIS extends React.Component {
     render() {
         return (
             <div style={wrapper}>
-                <img style={img} className="ui small image" src={logo} alt="logo" />
+                <img style={img} src={logo} alt="logo" />
                 <br />
                 <br />
                 <div style={buttonBox}>
@@ -73,6 +74,8 @@ class THIS extends React.Component {
                         <Current Squadify={this.props.Squadify} />
                         <br />
                         <Create Squadify={this.props.Squadify} />
+                        <br />
+                        <Logout Squadify={this.props.Squadify} />
                     </div>
                 </div>
             </div>
@@ -93,7 +96,8 @@ var wrapper = {
 
 var img = {
     display: "block",
-    margin: "auto"
+    margin: "auto",
+    height: "40%"
 }
 
 var buttonBox = {

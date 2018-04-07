@@ -25,7 +25,7 @@ if (window.location.pathname === "/") {
 } else if (window.location.pathname.match("^[/]logout[/]?$")) {
     // LOGOUT
     cookies.remove("Squadify");
-    window.location.href = "/";
+    window.location.href = "/"
 } else if (window.location.pathname.match("^[/]queue[/][a-zA-Z0-9_.-]*[/]?")) {
     // DEFINED QUEUE
     checkCookie((check) => {

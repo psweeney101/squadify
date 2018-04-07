@@ -38,22 +38,7 @@ var queueSchema = new Schema({
         id: {
             type: String,
             required: true
-        },/*
-        name: {
-            type: String,
-            required: true
         },
-        artist: {
-            type: String,
-            required: true
-        },
-        album: {
-            type: String,
-            required: true
-        },
-        image_url: {
-            type: String
-        },*/
         added_by: {
             type: Schema.Types.ObjectId, 
             ref: 'User',
@@ -67,12 +52,29 @@ var queueSchema = new Schema({
             type: String,
             required: true,
             default: "Queued"
-        }
+        },
+        name: {
+            type: String,
+        },
+        artist: {
+            type: String,
+        },
     }],
+    // POSITION IN TRACK
+    position: {
+        type: Number,
+        default: 0,
+        required: true
+    },
     // LIST OF USERS IN THE QUEUE. DOESN'T INCLUDE HOST
     users: [{
         type: Schema.Types.ObjectId, 
         ref: 'User',
+    }],
+    // LIST OF USERS THAT ARE BANNED FROM THE JOINING THE QUEUE
+    banned: [{
+        type: Schema.Types.ObjectId, 
+        ref: 'User',  
     }],
 }, {
         timestamps: true

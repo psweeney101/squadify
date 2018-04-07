@@ -51,7 +51,7 @@ module.exports = {
                 else if (!user) res.json({ error: true, why: "User not found" });
                 else if (user.server_token != req.body.server_token) res.json({ error: true, why: "Invalid credentials" });
                 else {
-                    Queue.findOne({ id: req.params.queue_id }).populate("host").populate("users").exec((error, queue) => {
+                    Queue.findOne({ id: req.params.queue_id.toUpperCase() }).populate("host").populate("users").exec((error, queue) => {
                         if (error) throw error;
                         else if (!queue) res.json({ error: true, why: "Queue does not exist" });
                         else {
@@ -63,7 +63,7 @@ module.exports = {
                                     else if (!queue) res.json({ error: true, why: "There was an error adding the user to the queue" });
                                     else {
                                         res.json({ id: queue.id });
-                                        req.app.io.to(queue.id).emit("users updated", queue.users.map((user) => { return user.id }));
+                                        req.app.io.to(queue.id).emit("users updated", queue.users.map((user) => { return { id: user.id, display_name: user.display_name, avatar_url: user.avatar_url } }));
                                     }
                                 });
                             }

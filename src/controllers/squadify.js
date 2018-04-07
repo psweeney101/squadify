@@ -8,7 +8,7 @@ class Squadify {
             var a = user_id;
             this.user = new User(a.user.id, a.user.access_token, a.user.refresh_token, a.user.server_token);
             this.queue = new Queue(a.queue.id);
-            this.page = 3;
+            this.page = 0;
         } else {
             this.user = new User(user_id, access_token, refresh_token, server_token);
             this.queue = new Queue(queue_id);
@@ -82,25 +82,42 @@ class Squadify {
             return cb(playlists);
         });
     }
+    getTopTracks = (cb) => {
+        Spotify.getTopTracks(this, (tracks) => {
+            return cb(tracks);
+        })
+    }
+    getRecentlyPlayedTracks = (cb) => {
+        Spotify.getRecentlyPlayed(this, (tracks) => {
+            return cb(tracks);
+        });
+    }
     getProfile = (id, cb) => {
         Spotify.getProfile(this, id, (profile) => {
             return cb(profile);
         })
     }
     isHost = () => {
-        return this.user.id === this.queue.host;
+        return this.user.id === this.queue.host.id;
     }
     // SETTERS
     setQueueId = (id) => {
         this.queue.id = id;
     }
-    setQueueInfo = (queue) => {
-        this.queue.status = queue.status;
-        this.queue.pin = queue.pin;
-        this.queue.host = queue.host;
-        this.queue.users = queue.users;
-        this.queue.tracks = queue.tracks;
-        this.queue.name = queue.name;
+    setInfo = (info) => {
+        console.dir(info);
+        this.user.id = info.user.id;
+        this.user.display_name = info.user.display_name;
+        this.user.avatar_url = info.user.avatar_url;
+        this.user.access_token = info.user.access_token;
+        this.user.refresh_token = info.user.refresh_token;
+        this.user.server_token = info.user.server_token;
+        this.queue.status = info.queue.status;
+        this.queue.id = info.queue.id;
+        this.queue.host = info.queue.host;
+        this.queue.users = info.queue.users;
+        this.queue.tracks = info.queue.tracks;
+        this.queue.name = info.queue.name;
         this.setState(this);
     }
     setPage = (page) => {

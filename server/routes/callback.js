@@ -25,7 +25,7 @@ module.exports = {
                         if (profile.error || profile.body == null) {
                             res.json(profile);
                         } else {
-                            db.createUser(profile.body.id, tokens.body.access_token, tokens.body.refresh_token, (user) => {
+                            db.createUser(profile.body.id, profile.body.display_name, profile.body.images, tokens.body.access_token, tokens.body.refresh_token, (user) => {
                                 req.universalCookies.set("Squadify", {
                                     user_id: profile.body.id,
                                     access_token: tokens.body.access_token,

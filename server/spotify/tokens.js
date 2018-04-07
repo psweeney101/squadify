@@ -1,6 +1,5 @@
 var request = require("request");
 var baseURL = "https://api.spotify.com";
-var Profiles = require("./profiles");
 var Response = require("./response");
 var db = require("../mongo");
 
@@ -39,6 +38,7 @@ var Tokens = {
                 if(tokens.error) {
                     return cb(tokens);
                 } else {
+                    var Profiles = require("./profiles");
                     Profiles.getMyProfile(tokens.body.access_token, refresh_token, (profile) => {
                         if(profile.error) {
                             return cb(profile);

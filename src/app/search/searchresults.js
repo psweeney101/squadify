@@ -48,20 +48,20 @@ class SearchResults extends React.Component {
         }
         this.allTracks = () => {
             this.props.pages.addPage(
-                <ListTracks Squadify={props.Squadify} socket={props.socket} pages={props.pages} tracks={this.state.tracks.items} />
+                <ListTracks Squadify={props.Squadify} socket={props.socket} pages={props.pages} tracks={this.state.tracks.items} title={"Tracks"} />
             );
         }
         this.allAlbums = () => {
             this.props.pages.addPage(
-                <ListAlbums Squadify={props.Squadify} socket={props.socket} pages={props.pages} albums={this.state.albums.items} />
+                <ListAlbums Squadify={props.Squadify} socket={props.socket} pages={props.pages} albums={this.state.albums.items} title={"Albums"} />
             )
         }
         this.allPlaylists = () => {
             this.props.pages.addPage(
-                <ListPlaylists Squadify={props.Squadify} socket={props.socket} pages={props.pages} playlists={this.state.playlists.items} />
+                <ListPlaylists Squadify={props.Squadify} socket={props.socket} pages={props.pages} playlists={this.state.playlists.items} title={"Playlists"} />
             )
         }
-        if(this.state.value !== "") {
+        if (this.state.value !== "") {
             this.doSearch();
         }
     }
@@ -78,46 +78,61 @@ class SearchResults extends React.Component {
                 <div style={{ display: (this.state.showResults ? "block" : "none") }}>
                     <br />
                     <br />
-                    <div>
-                        <h3 style={category}>Songs</h3>
-                        <div className="ui grid" style={grid}>
-                            {this.state.tracks.items.slice(0, 4).map((track) => <ListTrack Squadify={this.props.Squadify} socket={this.props.socket} track={track} key={track.id} />)}
-                            <div className="row">
-                                <div className="fourteen wide column" onClick={this.allTracks.bind()}>
-                                    See all tracks
+                    {this.state.tracks.items.length === 0 && this.state.albums.items.length === 0 && this.state.playlists.items.length === 0 ? <div><br /><h3 style={category}>No Results</h3></div> :
+                        <div>
+                            {this.state.tracks.items.length === 0 ? null :
+                                <div>
+                                    <br />
+                                    <h3 style={category}>Tracks</h3>
+                                    <div className="ui grid" style={grid}>
+                                        {this.state.tracks.items.slice(0, 4).map((track) => <ListTrack Squadify={this.props.Squadify} socket={this.props.socket} track={track} key={track.id} />)}
+                                        <div className="row">
+                                            <div className="fourteen wide column" onClick={this.allTracks.bind()}>
+                                                See all tracks
                                 </div>
-                                <div className="two wide column" style={column}>
-                                    <i className="large ui angle right icon" />
+                                            <div className="two wide column" style={column}>
+                                                <i className="large ui angle right icon" />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            {this.state.albums.items.length === 0 ? null :
+                                <div>
+                                    <br />
+                                    <h3 style={category}>Albums</h3>
+                                    <div className="ui grid" style={grid}>
+                                        {this.state.albums.items.slice(0, 4).map((album) => <ListAlbum Squadify={this.props.Squadify} socket={this.props.socket} pages={this.props.pages} album={album} key={album.id} />)}
+                                        <div className="row">
+                                            <div className="fourteen wide column" onClick={this.allAlbums.bind()}>
+                                                See all albums
+                                        </div>
+                                            <div className="two wide column" style={column}>
+                                                <i className="large ui angle right icon" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            {this.state.playlists.items.length === 0 ? null :
+                                <div>
+                                    <br />
+                                    <h3 style={category}>Playlists</h3>
+                                    <div className="ui grid" style={grid}>
+                                        {this.state.playlists.items.slice(0, 4).map((playlist) => <ListPlaylist Squadify={this.props.Squadify} socket={this.props.socket} pages={this.props.pages} playlist={playlist} key={playlist.id} />)}
+                                        <div className="row">
+                                            <div className="fourteen wide column" onClick={this.allPlaylists.bind()}>
+                                                See all playlists
+                                        </div>
+                                            <div className="two wide column" style={column}>
+                                                <i className="large ui angle right icon" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
-                        <br />
-                        <h3 style={category}>Albums</h3>
-                        <div className="ui grid" style={grid}>
-                            {this.state.albums.items.slice(0, 4).map((album) => <ListAlbum Squadify={this.props.Squadify} socket={this.props.socket} pages={this.props.pages} album={album} key={album.id} />)}
-                            <div className="row">
-                                <div className="fourteen wide column" onClick={this.allAlbums.bind()}>
-                                    See all albums
-                                </div>
-                                <div className="two wide column" style={column}>
-                                    <i className="large ui angle right icon" />
-                                </div>
-                            </div>
-                        </div>
-                        <br />
-                        <h3 style={category}>Playlists</h3>
-                        <div className="ui grid" style={grid}>
-                            {this.state.playlists.items.slice(0, 4).map((playlist) => <ListPlaylist Squadify={this.props.Squadify} socket={this.props.socket} pages={this.props.pages} playlist={playlist} key={playlist.id} />)}
-                            <div className="row">
-                                <div className="fourteen wide column" onClick={this.allPlaylists.bind()}>
-                                    See all playlists
-                                </div>
-                                <div className="two wide column" style={column}>
-                                    <i className="large ui angle right icon" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         );

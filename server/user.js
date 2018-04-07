@@ -8,6 +8,14 @@ var userSchema = new Schema({
         required: true,
         unique: true
     },
+    // DISPLAY_NAME OF THE USER ON SPOTIFY
+    display_name: {
+        type: String
+    },
+    // URL FOR USER'S PROFILE IMAGE
+    avatar_url: {
+        type: String
+    },
     // ACCESS_TOKEN OF THE USER
     access_token: {
         type: String

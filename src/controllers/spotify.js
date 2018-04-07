@@ -184,6 +184,36 @@ var Spotify = {
             });
         });
     },
+    getTopTracks: function(Squadify, cb) {
+        axios.get(url + "/me/top/tracks", {
+            headers: {
+                'Authorization': 'Bearer ' + Squadify.user.access_token
+            }
+        }).then(function(response) {
+            console.log("GET TOP TRACKS:");
+            console.dir(response);
+            return cb(response.data);
+        }).catch(function(error) {
+            Spotify.handleError(error, Squadify, (newSquadify) => {
+                Spotify.getTopTracks(Squadify, cb);
+            });
+        });
+    },
+    getRecentlyPlayed: function(Squadify, cb) {
+        axios.get(url + "/me/player/recently-played", {
+            headers: {
+                'Authorization': 'Bearer ' + Squadify.user.access_token
+            }
+        }).then(function(response) {
+            console.log("GET RECENTLY PLAYED:");
+            console.dir(response);
+            return cb(response.data);
+        }).catch(function(error) {
+            Spotify.handleError(error, Squadify, (newSquadify) => {
+                Spotify.getRecentlyPlayed(Squadify, cb);
+            });
+        });
+    },
     search: function(Squadify, q, cb) {
         axios.get(url + '/search?limit=50&type=album,playlist,track&q=' + encodeURIComponent(q), {
             headers: {
@@ -218,7 +248,7 @@ var Spotify = {
         if(error != null && error.response != null && error.response.data != null && error.response.data.error != null) {
             if(error.response.data.error.message === "The access token expired") {
                 Squadify.getNewAccessToken((newSquadify) => {
-                    return cb(newSquadify);
+                    //return cb(newSquadify);
                 });
             } else {
                 console.dir(error);

@@ -35,7 +35,7 @@ class Users extends React.Component {
                             Users
                         </h3>
                         <div className="ui grid" style={grid}>
-                            {this.props.Squadify.queue.users.map((user) => { return <User Squadify={this.props.Squadify} socket={this.props.socket} id={user} key={user} /> })}
+                            {this.props.Squadify.queue.users.map((user) => { return <User Squadify={this.props.Squadify} socket={this.props.socket} user={user} key={user.id} /> })}
                         </div>
                     </div>
                     <Modal size={"large"} open={this.state.open} onClose={this.close} closeIcon={true}>

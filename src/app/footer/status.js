@@ -75,8 +75,10 @@ class Status extends React.Component {
     }
     render() {
         let body = <span style={type}>This Queue is currently inactive. Only the host can being the Queue.</span>
-        if (this.props.Squadify.queue.host === this.props.Squadify.user.id) {
+        if (this.props.Squadify.queue.host.id === this.props.Squadify.user.id && this.props.Squadify.queue.tracks != null && this.props.Squadify.queue.tracks.length > 0) {
             body = <button onClick={this.openModal} className="ui inverted green basic button">Begin Queue</button>
+        } else if(this.props.Squadify.queue.host.id === this.props.Squadify.user.id && (this.props.Squadify.queue.tracks == null || this.props.Squadify.queue.tracks.length === 0)) {
+            body =  <span style={type}>The Queue is empty! Add some tracks before you start.</span>
         }
         return (
             <div className="row" style={wrapper}>
@@ -99,7 +101,10 @@ class Status extends React.Component {
 }
 
 var wrapper = {
-    height: "40px"
+    height: "40px",
+    borderBottomStyle: "solid",
+    borderBottomWidth: "1px",
+    borderBottomColor: "#888"
 }
 
 var column = {

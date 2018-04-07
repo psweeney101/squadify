@@ -28,9 +28,9 @@ class App extends React.Component {
         // INIT SOCKET CONNECTION
         socket.emit("join", props.Squadify);
         // GET INIT QUEUE INFO
-        socket.on("joined", (queue) => {
+        socket.on("joined", (info) => {
             console.log("SOCKET INIT:");
-            this.state.Squadify.setQueueInfo(queue);
+            this.state.Squadify.setInfo(info);
         });
         socket.on("status updated", (status) => {
             console.log("STATUS UPDATE:");
@@ -59,7 +59,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <div style={{alignContent: "center", width: "100%"}}>
+                <div style={{alignContent: "center", width: "100%", margin: "auto"}}>
                     <Header Squadify={this.state.Squadify} socket={this.state.Socket} />
                     <Home Squadify={this.state.Squadify} socket={this.state.Socket} />
                     <Browse Squadify={this.state.Squadify} socket={this.state.Socket} />

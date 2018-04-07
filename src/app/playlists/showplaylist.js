@@ -10,7 +10,43 @@ class ShowPlaylist extends React.Component {
         };
         props.Squadify.getPlaylist(props.owner_id, props.id, (playlist) => {
             this.setState({ playlist: playlist });
+            if (props.Squadify.queue.tracks != null) {
+                if (props.Squadify.queue.tracks.some(e => e.context === playlist.uri)) {
+                    this.setState({color: "orange"});
+                } else {
+                    this.setState({color: "white"});
+                }
+            }
         });
+        this.addContext = () => {
+            if(this.state.color === "orange" && props.Squadify.isHost()) {
+                props.socket.emit("remove context playlist", props.Squadify);
+            } else {
+                props.socket.emit("add context playlist", props.Squadify, props.owner_id, props.id)
+            }
+        }
+        this.socket = (context_uri, context_name) => {
+            if (this.state.playlist != null && context_uri === this.state.playlist.uri) {
+                this.setState({ color: "orange" });
+            } else {
+                this.setState({ color: "white" });
+            }
+        }
+    }
+    componentDidMount() {
+        this.props.socket.on("context updated", this.socket);
+    }
+    componentWillUnmount() {
+        this.props.socket.removeListener("context updated", this.socket);
+    }
+    componentWillReceiveProps(props) {
+        if (props.Squadify.queue.tracks != null) {
+            if (props.Squadify.queue.tracks.some(e => e.context !== "Queued")) {
+                this.setState({ color: "orange" });
+            } else {
+                this.setState({ color: "white" });
+            }
+        }
     }
     render() {
         if (this.state.playlist != null) {
@@ -28,6 +64,9 @@ class ShowPlaylist extends React.Component {
                                     <span style={user}>{this.state.playlist.followers.total.toLocaleString()} FOLLOWERS&nbsp;<span style={dot}>●</span>&nbsp;BY {this.state.playlist.owner.display_name != null ? this.state.playlist.owner.display_name.toUpperCase() : this.state.playlist.owner.id.toUpperCase()}</span>
                                     <span style={user}>{this.state.playlist.tracks.total.toLocaleString()} TRACKS</span>
                                 </div>
+                            </div>
+                            <div className="two wide column" onClick={this.addContext.bind()}>
+                                <i className="large ui linkify icon" style={{ color: this.state.color }} />
                             </div>
                         </div>
                         {this.state.playlist.tracks.items.map((item, index) => <ListTrack Squadify={this.props.Squadify} socket={this.props.socket} track={item.track} key={item.track.id + ":" + index} />)}

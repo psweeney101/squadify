@@ -9,6 +9,8 @@ class User {
         this.access_token = access_token;
         this.refresh_token = refresh_token;
         this.server_token = server_token;
+        this.display_name = null;
+        this.avatar_url = null;
     }
     // GETTERS
     getNewAccessToken(cb) {

@@ -2,22 +2,13 @@ import React from "react";
 import noImage from "../../images/missingCoverArt.png";
 
 class Host extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            profile: null
-        };
-        props.Squadify.getProfile(props.Squadify.queue.host, (profile) => {
-            this.setState({ profile: profile });
-        });
-    }
     render() {
-        if(this.state.profile != null) {
+        if(this.props.Squadify.queue != null && this.props.Squadify.queue.host != null) {
             return (
                 <div className="eight wide column" style={column}>
                     <div style={wrapper}>
-                    <img style={image} className="tiny ui circular image" src={this.state.profile.images[0] != null ? this.state.profile.images[0].url : noImage} alt="host" />
-                    {this.state.profile.display_name != null ? this.state.profile.display_name : this.state.profile.id}
+                    <img style={image} className="tiny ui circular image" src={this.props.Squadify.queue.host.avatar_url != null ? this.props.Squadify.queue.host.avatar_url : noImage} alt="host" />
+                    {this.props.Squadify.queue.host.display_name != null ? this.props.Squadify.queue.host.display_name : this.props.Squadify.queue.host.id}
                     </div>
                 </div>
             );

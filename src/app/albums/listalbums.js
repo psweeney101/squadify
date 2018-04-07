@@ -11,7 +11,7 @@ class ListAlbums extends React.Component {
                             <i className="large ui angle left icon" onClick={this.props.pages.removePage.bind()} />
                         </div>
                         <div className="twelve wide column" style={column}>
-                            <h3>All Albums</h3>
+                            <h3>{this.props.title}</h3>
                         </div>
                     </div>
                     {this.props.albums.map((album) => <ListAlbum Squadify={this.props.Squadify} socket={this.props.socket} pages={this.props.pages} album={album} key={album.id} />)}
