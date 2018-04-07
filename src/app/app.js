@@ -29,6 +29,7 @@ class App extends React.Component {
         socket.emit("join", props.Squadify);
         // GET INIT QUEUE INFO
         socket.on("joined", (info) => {
+            alert("welcome!");
             //console.log("SOCKET INIT:");
             this.state.Squadify.setInfo(info);
         });
@@ -54,7 +55,8 @@ class App extends React.Component {
         socket.on("player updated", (player) => {
             //console.log("PLAYER UPDATE:");
             this.state.Squadify.setPlayer(player);
-        })
+        });
+        window.addEventListener("focus", () => socket.connect());
     }
     render() {
         return (

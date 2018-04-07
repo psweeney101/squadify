@@ -25,6 +25,7 @@ module.exports = function (app) {
     app.get("/logout", (req,res) => {
         console.log("Logging out!");
         req.universalCookies.remove("Squadify");
+        req.universalCookies.remove("io");
         res.redirect("/");
         console.dir(req.universalCookies.getAll());
     });
