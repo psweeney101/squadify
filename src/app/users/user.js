@@ -27,19 +27,19 @@ class User extends React.Component {
     }
 
     render() {
-        if (this.state.profile != null) {
+        if (this.props.user != null) {
             return (
                 <div className="eight wide column" style={column} onClick={this.open.bind()}>
                     <div style={wrapper}>
-                        <img style={image} className="tiny ui circular image" src={this.state.profile.images[0] != null ? this.state.profile.images[0].url : noImage} alt="user" />
-                        {this.state.profile.display_name != null ? this.state.profile.display_name : this.state.profile.id}
+                        <img style={image} className="tiny ui circular image" src={this.props.user.avatar_url != null ? this.props.user.avatar_url : noImage} alt="user" />
+                        {this.props.user.display_name != null ? this.props.user.display_name : this.props.user.id}
                     </div>
                     <Modal size={"mini"} open={this.state.open} onClose={this.close} closeIcon={true}>
                         <Modal.Header>
                             Remove {this.state.profile.display_name != null ? this.state.profile.display_name : this.state.profile.id} from {this.props.Squadify.queue.name}
                         </Modal.Header>
                         <Modal.Content>
-                            <p>Are you sure you want to remove {this.state.profile.display_name != null ? this.state.profile.display_name : this.state.profile.id} from {this.props.Squadify.queue.name}?</p>
+                            <p>Are you sure you want to remove {this.props.user.display_name != null ? this.props.user.display_name : this.props.user.id} from {this.props.Squadify.queue.name}?</p>
                         </Modal.Content>
                         <Modal.Actions>
                             <Button negative onClick={this.close}>
