@@ -56,10 +56,10 @@ class App extends React.Component {
             //console.log("PLAYER UPDATE:");
             this.state.Squadify.setPlayer(player);
         });
-        window.onfocus(() => {
+        window.onfocus = () => {
             alert("Welcome back");
             socket.emit("join", props.Squadify);
-        });
+        }
     }
     render() {
         return (
