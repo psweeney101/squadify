@@ -33,7 +33,7 @@ module.exports = {
                                     access_token: tokens.body.access_token,
                                     refresh_token: tokens.body.refresh_token,
                                     server_token: user.server_token
-                                }, {path: "/", domain: "https://squadify.herokuapp.com"});
+                                }, {path: "/", domain: ".squadify.herokuapp.com"});
                                 console.dir(req.universalCookies.getAll());
                                 db.getQueuesForUser(user, (queues) => {
                                     if (queues[0] == null) {
