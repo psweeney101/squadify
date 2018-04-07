@@ -15,6 +15,7 @@ if (window.location.pathname === "/") {
         if (check == null) {
             ReactDOM.render(<Login />, document.getElementById("root"));
         } else {
+            console.dir(JSON.stringify(check));
             if (check.queue.id != null) {
                 window.location.href = "/queue/" + check.queue.id;
             } else {
@@ -24,7 +25,9 @@ if (window.location.pathname === "/") {
     });
 } else if (window.location.pathname.match("^[/]logout[/]?$")) {
     // LOGOUT
+    cookies.remove("io");
     cookies.remove("Squadify");
+    console.log(JSON.stringify(cookies.getAll()));
     window.location.href = "/"
 } else if (window.location.pathname.match("^[/]queue[/][a-zA-Z0-9_.-]*[/]?")) {
     // DEFINED QUEUE
@@ -32,6 +35,7 @@ if (window.location.pathname === "/") {
         if (check == null) {
             window.location.href = "/logout";
         } else {
+            console.dir(JSON.stringify(check));
             server.checkQueue(check.user.id, window.location.pathname.split("/")[2], check.user.server_token, (response) => {
                 if (response.good) {
                     setCookieQueueId(window.location.pathname.split("/")[2]);
@@ -49,6 +53,7 @@ if (window.location.pathname === "/") {
         if (check == null) {
             window.location.href = "/logout";
         } else {
+            console.dir(JSON.stringify(check));
             ReactDOM.render(<Queues Squadify={check} />, document.getElementById("root"));
         }
     });
@@ -59,10 +64,10 @@ if (window.location.pathname === "/") {
 // CHECK TOKENS VIA SERVER
 function checkCookie(cb) {
     var cookie = cookies.get("Squadify");
-    console.dir(cookie);
     if (cookie === undefined || cookie == null) {
         return cb(null);
     } else {
+        console.dir(JSON.stringify(cookie));
         server.checkTokens(cookie.user_id, cookie.access_token, cookie.refresh_token, cookie.server_token, (response) => {
             if (response.good) {
                 return cb(new Squadify(cookie.user_id, cookie.queue_id, cookie.access_token, cookie.refresh_token, cookie.server_token));

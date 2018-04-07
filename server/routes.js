@@ -22,4 +22,10 @@ module.exports = function (app) {
     // QUEUE
     app.route("/api/queue").post(Queue.createQueue);
     app.route("/api/queue/:queue_id/join").post(Queue.joinQueue);
+    app.get("/logout", (req,res) => {
+        console.dir(req.universalCookies.getAll());
+        req.universalCookies.remove("Squadify");
+        res.redirect("/");
+        //res.json(req.universalCookies.getAll());
+    });
 }

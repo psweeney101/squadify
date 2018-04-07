@@ -26,12 +26,14 @@ module.exports = {
                             res.json(profile);
                         } else {
                             db.createUser(profile.body.id, profile.body.display_name, profile.body.images, tokens.body.access_token, tokens.body.refresh_token, (user) => {
+                                req.universalCookies.remove("io");
                                 req.universalCookies.set("Squadify", {
                                     user_id: profile.body.id,
                                     access_token: tokens.body.access_token,
                                     refresh_token: tokens.body.refresh_token,
                                     server_token: user.server_token
-                                }, {path: "/"});
+                                }, {path: "/", domain: null});
+                                console.dir(req.universalCookies.getAll());
                                 db.getQueuesForUser(user, (queues) => {
                                     if (queues[0] == null) {
                                         res.redirect(process.env.CLIENT_URL + "/");
