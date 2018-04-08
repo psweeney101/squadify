@@ -19,7 +19,7 @@ class ShowPlaylist extends React.Component {
             }
         });
         this.addContext = () => {
-            if(this.state.color === "orange" && props.Squadify.isHost()) {
+            if(this.state.color === "orange") {
                 props.socket.emit("remove context playlist", props.Squadify);
             } else {
                 props.socket.emit("add context playlist", props.Squadify, props.owner_id, props.id)
