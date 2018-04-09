@@ -21,7 +21,7 @@ app.use((req, res, next) => {
     next();
 });
 
-//app.use("/", express.static("./build"));
+app.use("/", express.static("./build"));
 //app.use("/queues", express.static("./build"));
 //app.use("/queue/:queue_id", express.static("./build"));
 //app.use("/logout", express.static("./build"));
