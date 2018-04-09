@@ -7,6 +7,9 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 exports = module.exports = function (io) {
     io.sockets.on("connection", function (socket) {
+        socket.on("disconnect", function() {
+            console.dir(socket.clientId);
+        });
 
         /* INITIALIZE SOCKET WITH USER
          * @params Squadify object
@@ -113,6 +116,8 @@ exports = module.exports = function (io) {
                                 queue.save(() => {
                                     console.log(user.id + " removed " + user_id);
                                     io.to(queue.id).emit("users updated", queue.users.map((user) => { return { id: user.id, display_name: user.display_name, avatar_url: user.avatar_url } }));
+                                    var clients = io.sockets.adapter.rooms[queue.id];
+                                    console.dir(clients);
                                 });
                             }
                         });
@@ -286,7 +291,7 @@ function QueueManager(queue_id, interval_id, init_track_id, io, cb) {
     Queue.findOne({ id: queue_id }).populate("host").populate("tracks.added_by").exec((error, queue) => {
         // STEP 1
         console.log(`COMPARING THIS ${interval_id} TO ${queue.interval_id}`);
-        if (queue.interval_id != interval_id) {
+        if (queue.interval_id != interval_id || queue.status != "active") {
             return cb(true, null);
         } else {
             // STEP 2

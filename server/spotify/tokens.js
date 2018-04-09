@@ -10,7 +10,7 @@ var Tokens = {
             form: {
                 grant_type: "authorization_code",
                 code: code,
-                redirect_uri: process.env.REDIRECT_URI
+                redirect_uri: process.env.SERVER_URL + "/callback"
             },
             headers: {
                 "Authorization": "Basic " + (new Buffer(process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET).toString("base64"))

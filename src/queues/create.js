@@ -25,7 +25,7 @@ class Create extends React.Component {
             this.setState({ disabled: true });
             server.createQueue(props.Squadify, this.state.name, (response) => {
                 if (response.id != null) {
-                    window.location.href = "/queue/" + response.id;
+                    props.router.app(response.id);
                 }
             })
         }

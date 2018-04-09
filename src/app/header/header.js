@@ -17,9 +17,6 @@ class Header extends React.Component {
         this.state = {
             popup: false
         }
-        this.goToQueues = () => {
-            window.location.href = "/queues";
-        }
         this.popup = () => {
             this.setState({
                 popup: !this.state.popup
@@ -31,11 +28,11 @@ class Header extends React.Component {
             <div className="ui grid" style={wrapper}>
                 <div className="row" style={row}>
                     <div className="four wide column">
-                        <img style={logoStyle} onClick={this.goToQueues.bind()} src={logo} alt="logo" />
+                        <img style={logoStyle} onClick={this.props.router.queues.bind()} src={logo} alt="logo" />
                     </div>
                     <div className="eight wide column" style={column}>
                         <div style={content}>
-                            <span style={title}>{pageNames[this.props.Squadify.page]}</span>
+                            <span style={title}>{pageNames[this.props.pages.getPage()]}</span>
                             <br />
                             <span style={name}>{this.props.Squadify.queue.name}</span>
                         </div>

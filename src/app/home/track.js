@@ -39,7 +39,8 @@ var row = {
     padding: "5px 0 5px 0",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
-    overflow: "hidden"
+    overflow: "hidden",
+    height: "45px"
 }
 
 var column = {

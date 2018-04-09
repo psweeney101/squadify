@@ -2,8 +2,8 @@ var Callback = require("./routes/callback");
 var Tokens = require("./routes/tokens");
 var User = require("./routes/user.js");
 var Player = require("./routes/player");
-var Queue = require('./routes/queue')
-
+var Queue = require("./routes/queue");
+var Router = require("./routes/router");
 module.exports = function (app) {
     // CALLBACK
     app.route("/callback").get(Callback.callback);
@@ -11,6 +11,10 @@ module.exports = function (app) {
     // TOKENS
     app.route("/api/tokens/refresh").post(Tokens.refresh);
     app.route("/api/tokens/check").get(Tokens.check);
+
+    // ROUTER
+    app.route("/api/router").get(Router.router);
+    app.route("/api/router/queue/:queue_id").get(Router.tryQueue);
 
     // USER
     app.route("/api/user/queue/:queue_id/check").get(User.checkIfInQueue);
@@ -24,9 +28,7 @@ module.exports = function (app) {
     app.route("/api/queue/:queue_id/join").post(Queue.joinQueue);
     app.get("/logout", (req,res) => {
         console.log("Logging out!");
-        req.universalCookies.remove("Squadify");
-        req.universalCookies.remove("io");
+        res.cookie("Squadify", null);
         res.redirect("/");
-        console.dir(req.universalCookies.getAll());
     });
 }

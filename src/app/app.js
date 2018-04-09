@@ -10,20 +10,13 @@ import Users from "./users/users";
 import Library from "./library/library";
 import Footer from "./footer/footer";
 
-var socket = null;
-
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.squadify = new Squadify(props.Squadify);
-        this.squadify.setState = (newSquadify) => {
-            this.setState({ Squadify: newSquadify });
-            //console.dir(newSquadify);
-        };
-        socket = openSocket(Server.url);
+        var socket = openSocket(Server.url);
         this.state = {
-            Squadify: this.squadify,
-            Socket: socket
+            Socket: socket,
+            page: 0
         }
         // INIT SOCKET CONNECTION
         socket.emit("join", props.Squadify);
@@ -31,54 +24,57 @@ class App extends React.Component {
         socket.on("joined", (info) => {
             console.log("welcome!");
             //console.log("SOCKET INIT:");
-            this.state.Squadify.setInfo(info);
+            props.Squadify.setInfo(info);
         });
         socket.on("status updated", (status) => {
             //console.log("STATUS UPDATE:");
-            this.state.Squadify.setStatus(status);
+            props.Squadify.setStatus(status);
         });
         socket.on("users updated", (users) => {
             //console.log("USER UPDATE:");
             //console.dir(users);
-            if(!this.state.Squadify.isHost()) {
-                if(!users.some(e => e === this.state.Squadify.user.id)) {
+            if (!props.Squadify.isHost()) {
+                if (!users.some(user => user.id === props.Squadify.user.id)) {
                     alert("You've been kicked!");
-                    window.location.href = "/queues";
+                    props.router.queues();
                 }
             }
-            this.state.Squadify.setUsers(users);
+            props.Squadify.setUsers(users);
         });
         socket.on("tracks updated", (tracks) => {
             //console.log("TRACKS UPDATE:");
-            this.state.Squadify.setTracks(tracks);
+            props.Squadify.setTracks(tracks);
         });
         socket.on("player updated", (player) => {
             //console.log("PLAYER UPDATE:");
-            this.state.Squadify.setPlayer(player);
+            props.Squadify.setPlayer(player);
         });
-        this.isFocused = true;
-        window.onfocus = () => {
-            if(this.isFocused === false && this.isFocused != null) {
-                console.log("welcome back");
-                socket.emit("join", props.Squadify);
-                this.isFocused = true;
+        socket.on("reconnect", () => {
+            socket.emit("join", props.Squadify);
+        });
+        this.pages = {
+            getPage: () => {
+                return this.state.page
+            },
+            setPage: (page) => {
+                this.setState({ page: page }, () => {
+                    console.log(this.pages.getPage());
+                });
             }
         }
-        window.onblur = () => {
-            this.isFocused = false;
-        }
+
     }
     render() {
         return (
             <div>
-                <div style={{alignContent: "center", width: "100%", margin: "auto"}}>
-                    <Header Squadify={this.state.Squadify} socket={this.state.Socket} />
-                    <Home Squadify={this.state.Squadify} socket={this.state.Socket} />
-                    <Browse Squadify={this.state.Squadify} socket={this.state.Socket} />
-                    <Search Squadify={this.state.Squadify} socket={this.state.Socket} />
-                    <Users Squadify={this.state.Squadify} socket={this.state.Socket} />
-                    <Library Squadify={this.state.Squadify} socket={this.state.Socket} />
-                    <Footer Squadify={this.state.Squadify} socket={this.state.Socket} />
+                <div style={{ alignContent: "center", width: "100%", margin: "auto" }}>
+                    <Header Squadify={this.props.Squadify} socket={this.state.Socket} pages={this.pages} router={this.props.router} />
+                        <Home Squadify={this.props.Squadify} socket={this.state.Socket} pages={this.pages} />
+                        <Browse Squadify={this.props.Squadify} socket={this.state.Socket} pages={this.pages} />
+                        <Search Squadify={this.props.Squadify} socket={this.state.Socket} pages={this.pages} />
+                        <Users Squadify={this.props.Squadify} socket={this.state.Socket} pages={this.pages} />
+                        <Library Squadify={this.props.Squadify} socket={this.state.Socket} pages={this.pages} />
+                    <Footer Squadify={this.props.Squadify} socket={this.state.Socket} pages={this.pages} />
                 </div>
             </div>
         );

@@ -23,7 +23,7 @@ class Home extends React.Component {
     render() {
         if (this.props.Squadify.queue.tracks != null) {
             return (
-                <div style={{ display: (this.props.Squadify.page === 0 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
+                <div style={{ display: (this.props.pages.getPage() === 0 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
                     <div style={{ display: this.state.pages.length === 0 ? "block" : "none" }}>
                         <List Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} />;
                 </div>

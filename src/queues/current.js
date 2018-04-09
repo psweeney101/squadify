@@ -12,8 +12,8 @@ class Join extends React.Component {
             disabled: false,
             queues: []
         }
-        this.redirect = (id) => {
-            window.location.href = "/queue/" + id;
+        this.openQueue = (id) => {
+            props.router.app(id);
         }
         this.open = () => {
             this.setState({ open: true });
@@ -50,7 +50,7 @@ class Join extends React.Component {
                         <div className="ui grid">
                             {this.state.queues.length !== 0 ? this.state.queues.map((queue) => {
                                 return (
-                                    <div className="row" style={row} key={queue.id} onClick={this.redirect.bind(null, queue.id)}>
+                                    <div className="row" style={row} key={queue.id} onClick={this.openQueue.bind(null, queue.id)}>
                                         <div className="three wide column" style={column}>
                                             {queue.status === "active" ? <i class="green large circle icon"></i> : <i class="red large circle icon"></i> }
                                         </div>

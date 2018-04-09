@@ -24,7 +24,7 @@ class Join extends React.Component {
         this.join = () => {
             Server.joinQueue(props.Squadify, this.state.pin, (queue) => {
                 if(queue.error !== false && queue.id !== null) {
-                    window.location.href = "/queue/" + queue.id
+                    props.router.app(queue.id);
                 }
             });
         }

@@ -9,18 +9,18 @@ class User extends React.Component {
             open: false
         };
         this.open = () => {
-            if(props.Squadify.isHost()) {
+            if (props.Squadify.isHost()) {
                 this.setState({ open: true });
             }
-            
+
         }
         this.close = () => {
-            if(props.Squadify.isHost()) {
+            if (props.Squadify.isHost()) {
                 this.setState({ open: false });
             }
         }
         this.kick = () => {
-            if(props.Squadify.isHost()) {
+            if (props.Squadify.isHost()) {
                 props.socket.emit("kick user", props.Squadify, props.user.id);
             }
         }
@@ -31,7 +31,7 @@ class User extends React.Component {
             return (
                 <div className="eight wide column" style={column} onClick={this.open.bind()}>
                     <div style={wrapper}>
-                        <img style={image} className="tiny ui circular image" src={this.props.user.avatar_url != null ? this.props.user.avatar_url : noImage} alt="user" />
+                        <img style={image} className="tiny ui circular image" src={this.props.user.avatar_url != null ? this.props.user.avatar_url : noImage} onError={(e) => e.target.src = noImage} alt="user" />
                         {this.props.user.display_name != null ? this.props.user.display_name : this.props.user.id}
                     </div>
                     <Modal size={"mini"} open={this.state.open} onClose={this.close} closeIcon={true}>

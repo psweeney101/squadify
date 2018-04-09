@@ -4,13 +4,15 @@ import Server from "./server";
 const cookies = new Cookies();
 
 class User {
-    constructor(user_id, access_token, refresh_token, server_token) {
-        this.id = user_id;
-        this.access_token = access_token;
-        this.refresh_token = refresh_token;
-        this.server_token = server_token;
-        this.display_name = null;
-        this.avatar_url = null;
+    constructor(object) {
+        if(object != null) {
+            this.id = object.id;
+            this.access_token = object.access_token;
+            this.refresh_token = object.refresh_token;
+            this.server_token = object.server_token;
+            this.display_name = object.display_name;
+            this.avatar_url = object.avatar_url;
+        }     
     }
     // GETTERS
     getNewAccessToken(cb) {

@@ -28,7 +28,7 @@ class Footer extends React.Component {
                     <div className="bar" style={this.percent} />
                 </div>
                 {this.top}
-                <Navigation Squadify={this.props.Squadify} />
+                <Navigation Squadify={this.props.Squadify} pages={this.props.pages} />
             </div>
         );
     }
@@ -37,7 +37,8 @@ class Footer extends React.Component {
 
 var progress = {
     width: "100%",
-    maxWidth: "700px"
+    maxWidth: "700px",
+    height: ".1em"
 }
 
 var footer = {

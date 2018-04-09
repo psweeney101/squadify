@@ -23,7 +23,7 @@ class Search extends React.Component {
 
     render() {
         return (
-            <div style={{ display: (this.props.Squadify.page === 2 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
+            <div style={{ display: (this.props.pages.getPage() === 2 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
                 <div style={{ display: this.state.pages.length === 0 ? "block" : "none" }} >
                     <SearchResults Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} />
                 </div>

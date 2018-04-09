@@ -56,7 +56,7 @@ class Browse extends React.Component {
     }
     render() {
         return (
-            <div style={{ display: (this.props.Squadify.page === 1 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
+            <div style={{ display: (this.props.pages.getPage() === 1 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
                 <div style={{ display: this.state.pages.length === 0 ? "block" : "none" }} >
                     <div style={wrapper}>
                         <h3 style={header} className="ui inverted header">

@@ -1,15 +1,63 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import Cookies from "universal-cookie";
 import Squadify from "./controllers/squadify";
 import Login from "./login/login";
 import Queues from "./queues/queues";
 import App from "./app/app";
-import server from "./controllers/server";
-const cookies = new Cookies();
+import Server from "./controllers/server";
+
+class Router extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            Squadify: ""
+        }
+        this.handleResponse = (response) => {
+            if (response.Squadify != null) {
+                var squadify = new Squadify(response.Squadify);
+                squadify.setState = (newSquadify) => {
+                    this.setState({ Squadify: newSquadify });
+                };
+                console.dir(squadify);
+                this.setState({ Squadify: squadify });
+            } else {
+                this.setState({ Squadify: null });
+            }
+        }
+        Server.checkIn((response) => {
+            this.handleResponse(response);
+        });
+        this.router = {
+            app: (id) => {
+                Server.tryQueue(this.state.Squadify, id, (response) => {
+                    this.handleResponse(response);
+                });
+            },
+            queues: () => {
+                var newSquadify = this.state.Squadify;
+                this.state.Squadify.queue = null;
+                this.setState({Squadify: newSquadify});
+            }
+        }
+    }
+
+    render() {
+        if (this.state.Squadify == "") {
+            return null;
+        } else if (this.state.Squadify == null) {
+            return <Login />;
+        } else if (this.state.Squadify.user != null && this.state.Squadify.queue == null) {
+            return <Queues Squadify={this.state.Squadify} router={this.router} />;
+        } else {
+            return <App Squadify={this.state.Squadify} router={this.router} />;
+        }
+    }
+}
+
+ReactDOM.render(<Router />, document.getElementById("root"));
 
 // ROUTER
-if (window.location.pathname === "/") {
+/*if (window.location.pathname === "/") {
     // LOGIN OR GO TO QUEUE IN COOKIE
     checkCookie((check) => {
         if (check == null) {
@@ -82,4 +130,4 @@ function setCookieQueueId(id) {
     var cookie = cookies.get("Squadify");
     cookie.queue_id = id;
     cookies.set("Squadify", cookie, { path: "/" });
-}
+}*/

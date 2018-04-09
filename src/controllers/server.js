@@ -1,8 +1,32 @@
 import axios from "axios";
-const url = "https://squadify.herokuapp.com";
+const url = "http://10.0.0.252:4200";//"https://squadify.herokuapp.com";
 
 var server = {
     url: url,
+    checkIn: function(cb) {
+        axios.get(url + "/api/router"
+        ).then(function (response) {
+            //console.log("CHECK TOKENS:");
+            //console.dir(response);
+            return cb(response.data);
+        }).catch(function (error) {
+            //console.dir(error);
+        });
+    },
+    tryQueue: function(Squadify, id, cb) {
+        axios.get(url + "/api/router/queue/" + id, {
+            params: {
+                user_id: Squadify.user.id,
+                server_token: Squadify.user.server_token
+            }
+        }).then(function (response) {
+            //console.log("CHECK TOKENS:");
+            //console.dir(response);
+            return cb(response.data);
+        }).catch(function (error) {
+            //console.dir(error);
+        });
+    },
     checkTokens: function (user_id, access_token, refresh_token, server_token, cb) {
         axios.get(url + "/api/tokens/check", {
             params: {

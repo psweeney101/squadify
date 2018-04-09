@@ -69,13 +69,13 @@ class THIS extends React.Component {
                 <br />
                 <div style={buttonBox}>
                     <div style={inner}>
-                        <Join Squadify={this.props.Squadify} />
+                        <Join Squadify={this.props.Squadify} router={this.props.router} />
                         <br />
-                        <Current Squadify={this.props.Squadify} />
+                        <Current Squadify={this.props.Squadify} router={this.props.router} />
                         <br />
-                        <Create Squadify={this.props.Squadify} />
+                        <Create Squadify={this.props.Squadify} router={this.props.router} />
                         <br />
-                        <Logout Squadify={this.props.Squadify} />
+                        <Logout Squadify={this.props.Squadify} router={this.props.router} />
                     </div>
                 </div>
             </div>

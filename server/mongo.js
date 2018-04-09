@@ -47,7 +47,7 @@ var db = {
         });
     },
     getQueuesForUser(user, cb) {
-        Queue.find({ $or: [{ host: user._id }, { users: user._id }] }).populate("host").populate("users").exec(function (error, queues) {
+        Queue.find({ $or: [{ host: user._id }, { users: user._id }] }).populate("host", "id display_name avatar_url").populate("users", "id display_name avatar_url").populate("tracks.added_by", "id display_name avatar_url").select("id name status host users tracks createdAt").exec(function (error, queues) {
             if (error) throw error;
             var queueArray = [];
             for (var i = 0; i < queues.length; i++) {

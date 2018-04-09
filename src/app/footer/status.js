@@ -74,7 +74,7 @@ class Status extends React.Component {
         }
     }
     render() {
-        let body = <span style={type}>This Queue is currently inactive. Only the host can being the Queue.</span>
+        let body = <span style={type}>This Queue is currently inactive. Only the host can begin the Queue.</span>
         if (this.props.Squadify.queue.host.id === this.props.Squadify.user.id && this.props.Squadify.queue.tracks != null && this.props.Squadify.queue.tracks.length > 0) {
             body = <button onClick={this.openModal} className="ui inverted green basic button">Begin Queue</button>
         } else if(this.props.Squadify.queue.host.id === this.props.Squadify.user.id && (this.props.Squadify.queue.tracks == null || this.props.Squadify.queue.tracks.length === 0)) {

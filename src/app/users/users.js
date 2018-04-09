@@ -19,7 +19,7 @@ class Users extends React.Component {
     render() {
         if (this.props.Squadify.queue.users != null) {
             return (
-                <div style={{ display: (this.props.Squadify.page === 3 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
+                <div style={{ display: (this.props.pages.getPage() === 3 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
                     <div style={wrapper}>
                         <br />
                         <div style={buttonBox}>

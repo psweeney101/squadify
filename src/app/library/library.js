@@ -79,36 +79,44 @@ class Library extends React.Component {
 
     render() {
         return (
-            <div style={{ display: (this.props.Squadify.page === 4 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
+            <div style={{ display: (this.props.pages.getPage() === 4 ? "block" : "none"), margin: "auto", maxWidth: "700px" }} >
                 <div style={{ display: this.state.pages.length === 0 ? "block" : "none" }} >
                     <div style={wrapper}>
                         <br />
                         <div>
-                            <h3 style={category}>Your Tracks</h3>
-                            <div className="ui grid" style={grid}>
-                                {this.state.tracks.items.slice(0, 4).map((item) => <ListTrack Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} track={item.track} key={item.track.id} />)}
-                                <div className="row" onClick={this.allTracks.bind()}>
-                                    <div className="fourteen wide column">
-                                        See all tracks
+                            {this.state.tracks.items.length === 0 ? null :
+                                <div>
+                                    <h3 style={category}>Your Tracks</h3>
+                                    <div className="ui grid" style={grid}>
+                                        {this.state.tracks.items.slice(0, 4).map((item) => <ListTrack Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} track={item.track} key={item.track.id} />)}
+                                        <div className="row" onClick={this.allTracks.bind()}>
+                                            <div className="fourteen wide column">
+                                                See all tracks
                                     </div>
-                                    <div className="two wide column" style={column}>
-                                        <i className="large ui angle right icon" />
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <h3 style={category}>Your Albums</h3>
-                            <div className="ui grid" style={grid}>
-                                {this.state.albums.items.slice(0, 4).map((item) => <ListAlbum Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} album={item.album} key={item.album.id} />)}
-                                <div className="row" onClick={this.allAlbums.bind()}>
-                                    <div className="fourteen wide column">
-                                        See all albums
-                                    </div>
-                                    <div className="two wide column" style={column}>
-                                        <i className="large ui angle right icon" />
+                                            <div className="two wide column" style={column}>
+                                                <i className="large ui angle right icon" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            {this.state.albums.items.length === 0 ? null :
+                                <div>
+                                    <br />
+                                    <h3 style={category}>Your Albums</h3>
+                                    <div className="ui grid" style={grid}>
+                                        {this.state.albums.items.slice(0, 4).map((item) => <ListAlbum Squadify={this.props.Squadify} socket={this.props.socket} pages={this.pages} album={item.album} key={item.album.id} />)}
+                                        <div className="row" onClick={this.allAlbums.bind()}>
+                                            <div className="fourteen wide column">
+                                                See all albums
+                                    </div>
+                                            <div className="two wide column" style={column}>
+                                                <i className="large ui angle right icon" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             {this.state.playlists.items.length === 0 ? null :
                                 <div>
                                     <br />
@@ -126,7 +134,7 @@ class Library extends React.Component {
                                     </div>
                                 </div>
                             }
-                            {this.state.playlists.items.length === 0 ? null :
+                            {this.state.recentlyPlayedTracks.items.length === 0 ? null :
                                 <div>
                                     <br />
                                     <h3 style={category}>Your Recently Played Tracks</h3>

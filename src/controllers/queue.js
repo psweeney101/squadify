@@ -2,17 +2,16 @@
 import Spotify from "./spotify.js";
 
 class Queue {
-    constructor(queue_id) {
-        // Index.js login
-        this.id = queue_id;
-        // Socket init
-        this.status = null;
-        this.host = null;
-        this.users = null;
-        this.name = null;
-        this.tracks = null;
-        // Socket loop
-        this.player = null;
+    constructor(object) {
+        if(object != null) {
+            this.id = object.id;
+            this.status = object.status;
+            this.host = object.host;
+            this.users = object.users;
+            this.name = object.name;
+            this.tracks = object.tracks;
+            this.player = null;
+        }
     }
     getQueuePlaylist = (Squadify, cb) => {
         Spotify.getQueuePlaylist(Squadify, (playlist) => {

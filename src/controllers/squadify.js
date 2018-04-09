@@ -3,16 +3,14 @@ import Queue from "./queue";
 import Spotify from "./spotify";
 
 class Squadify {
-    constructor(user_id, queue_id, access_token, refresh_token, server_token) {
-        if (user_id instanceof Squadify) {
-            var a = user_id;
-            this.user = new User(a.user.id, a.user.access_token, a.user.refresh_token, a.user.server_token);
-            this.queue = new Queue(a.queue.id);
-            this.page = 0;
-        } else {
-            this.user = new User(user_id, access_token, refresh_token, server_token);
-            this.queue = new Queue(queue_id);
-            this.page = 0;
+    constructor(object) {
+        if(object != null) {
+            if(object.user != null ){
+                this.user = new User(object.user);
+            }
+            if(object.queue != null) {
+                this.queue = new Queue(object.queue);
+            }
         }
     }
 
@@ -117,11 +115,7 @@ class Squadify {
         this.queue.host = info.queue.host;
         this.queue.users = info.queue.users;
         this.queue.tracks = info.queue.tracks;
-        this.queue.name = info.queue.name;
-        this.setState(this);
-    }
-    setPage = (page) => {
-        this.page = page;
+        //this.queue.name = info.queue.name;
         this.setState(this);
     }
     setStatus = (status) => {
