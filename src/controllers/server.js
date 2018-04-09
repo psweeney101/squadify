@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://10.0.0.252:4200";//"https://squadify.herokuapp.com";
+const url = "https://squadify.herokuapp.com";
 
 var server = {
     url: url,
