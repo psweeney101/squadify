@@ -56,9 +56,7 @@ class App extends React.Component {
                 return this.state.page
             },
             setPage: (page) => {
-                this.setState({ page: page }, () => {
-                    console.log(this.pages.getPage());
-                });
+                this.setState({ page: page });
             }
         }
 

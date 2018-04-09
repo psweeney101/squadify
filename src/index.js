@@ -35,7 +35,10 @@ class Router extends React.Component {
             },
             queues: () => {
                 var newSquadify = this.state.Squadify;
-                this.state.Squadify.queue = null;
+                newSquadify.queue = null;
+                newSquadify.setState = (newSquadify) => {
+                    this.setState({ Squadify: newSquadify });
+                };
                 this.setState({Squadify: newSquadify});
             }
         }
