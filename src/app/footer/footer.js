@@ -37,7 +37,6 @@ class Footer extends React.Component {
 
 var progress = {
     width: "100%",
-    maxWidth: "700px",
     height: ".1em"
 }
 
