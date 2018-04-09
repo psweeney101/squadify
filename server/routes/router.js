@@ -13,8 +13,23 @@ module.exports = {
      * @return Squadify object
      */
     router: function (req, res) {
-        console.dir(req.cookies);
-        if (req.cookies == null || req.cookies.Squadify == null) {
+        if(process.env.PRODUCTION == "TRUE") {
+            console.log("PRODUCTION OVERRIDE!!!!!");
+            User.findOne({id: "12120298224"}, (err, user) => {
+                db.getQueuesForUser(user, (queues) => {
+                    queues.map((queue) => {
+                        if(queue.id == "REAMER") {
+                            res.json({
+                                Squadify: {
+                                    user: user,
+                                    queue: queue
+                                }
+                            });
+                        }
+                    })
+                })
+            });
+        } else if (req.cookies == null || req.cookies.Squadify == null) {
             console.log("NULL SQUADIFY");
             res.json({ Squadify: null });
         } else if (req.cookies.Squadify.user_id == null || req.cookies.Squadify.access_token == null || req.cookies.Squadify.refresh_token == null || req.cookies.Squadify.server_token == null) {
@@ -54,7 +69,7 @@ module.exports = {
                                         }
                                     });
                                 } else {
-                                    res.cookies("Squadify", {
+                                    res.cookie("Squadify", {
                                         user_id: user.id,
                                         access_token: user.access_token,
                                         refresh_token: user.refresh_token,
@@ -69,7 +84,7 @@ module.exports = {
                                     Squadify.queue = queues[0];
                                     res.json({ Squadify });
                                 } else {
-                                    res.cookies("Squadify", {
+                                    res.cookie("Squadify", {
                                         user_id: user.id,
                                         access_token: user.access_token,
                                         refresh_token: user.refresh_token,

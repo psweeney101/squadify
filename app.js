@@ -15,8 +15,13 @@ app.use(cookieParser(process.env.SESSION_SECRET, {
     path: "/",
     domain: process.env.SUB_DOMAIN
 }));
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
-app.use("/", express.static("./build"));
+//app.use("/", express.static("./build"));
 //app.use("/queues", express.static("./build"));
 //app.use("/queue/:queue_id", express.static("./build"));
 //app.use("/logout", express.static("./build"));

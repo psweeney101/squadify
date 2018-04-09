@@ -42,7 +42,7 @@ class Router extends React.Component {
     }
 
     render() {
-        if (this.state.Squadify == "") {
+        if (this.state.Squadify === "") {
             return null;
         } else if (this.state.Squadify == null) {
             return <Login />;

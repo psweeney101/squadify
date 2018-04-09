@@ -1,7 +1,6 @@
 import React from "react";
 import openSocket from 'socket.io-client';
 import Server from '../controllers/server';
-import Squadify from "../controllers/squadify";
 import Header from "./header/header";
 import Home from "./home/home";
 import Browse from "./browse/browse";
