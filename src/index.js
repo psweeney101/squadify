@@ -16,9 +16,10 @@ class Router extends React.Component {
             if (response.Squadify != null) {
                 var squadify = new Squadify(response.Squadify);
                 squadify.setState = (newSquadify) => {
+                    //console.dir(newSquadify);
                     this.setState({ Squadify: newSquadify });
                 };
-                console.dir(squadify);
+                //console.dir(squadify);
                 this.setState({ Squadify: squadify });
             } else {
                 this.setState({ Squadify: null });
@@ -37,6 +38,7 @@ class Router extends React.Component {
                 var newSquadify = this.state.Squadify;
                 newSquadify.queue = null;
                 newSquadify.setState = (newSquadify) => {
+                    //console.dir(newSquadify);
                     this.setState({ Squadify: newSquadify });
                 };
                 this.setState({Squadify: newSquadify});

@@ -21,7 +21,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/", express.static("./build"));
+//app.use("/", express.static("./build"));
 //app.use("/queues", express.static("./build"));
 //app.use("/queue/:queue_id", express.static("./build"));
 //app.use("/logout", express.static("./build"));
@@ -32,7 +32,7 @@ app.io = io;
 server.listen(port);
 console.log("Listening on " + port);
 require("./server/routes")(app);
-require('./server/socket')(io);
+require('./server/socket')(io, app);
 
 mongoose.connect(process.env.DB_URL, function (error) {
     if (error) throw error;

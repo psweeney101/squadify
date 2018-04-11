@@ -4,11 +4,11 @@ import Spotify from "./spotify";
 
 class Squadify {
     constructor(object) {
-        if(object != null) {
-            if(object.user != null ){
+        if (object != null) {
+            if (object.user != null) {
                 this.user = new User(object.user);
             }
-            if(object.queue != null) {
+            if (object.queue != null) {
                 this.queue = new Queue(object.queue);
             }
         }
@@ -16,9 +16,11 @@ class Squadify {
 
     // GETTERS
     getQueuePlaylist = () => {
-        this.queue.getQueuePlaylist(this, () => {
-            this.setState(this);
-        });
+        if (this.queue != null) {
+            this.queue.getQueuePlaylist(this, () => {
+                this.setState(this);
+            });
+        }
     }
     getNewReleases = (cb) => {
         Spotify.getNewReleases(this, (newReleases) => {
@@ -100,44 +102,60 @@ class Squadify {
     }
     // SETTERS
     setQueueId = (id) => {
-        this.queue.id = id;
+        if (this.queue != null) {
+            this.queue.id = id;
+        }
     }
     setInfo = (info) => {
-        console.dir(info);
-        this.user.id = info.user.id;
-        this.user.display_name = info.user.display_name;
-        this.user.avatar_url = info.user.avatar_url;
-        this.user.access_token = info.user.access_token;
-        this.user.refresh_token = info.user.refresh_token;
-        this.user.server_token = info.user.server_token;
-        this.queue.status = info.queue.status;
-        this.queue.id = info.queue.id;
-        this.queue.host = info.queue.host;
-        this.queue.users = info.queue.users;
-        this.queue.tracks = info.queue.tracks;
-        //this.queue.name = info.queue.name;
+        if (this.queue != null) {
+            this.queue.status = info.queue.status;
+            this.queue.id = info.queue.id;
+            this.queue.host = info.queue.host;
+            this.queue.users = info.queue.users;
+            this.queue.tracks = info.queue.tracks;
+            this.queue.name = info.queue.name;
+        }
+        if (this.user != null) {
+            this.user.id = info.user.id;
+            this.user.display_name = info.user.display_name;
+            this.user.avatar_url = info.user.avatar_url;
+            this.user.access_token = info.user.access_token;
+            this.user.refresh_token = info.user.refresh_token;
+            this.user.server_token = info.user.server_token;
+        }
         this.setState(this);
     }
     setStatus = (status) => {
-        this.queue.setStatus(status);
-        this.setState(this);
+        if (this.queue != null) {
+            this.queue.setStatus(status);
+            this.setState(this);
+        }
     }
     setUsers = (users) => {
-        this.queue.setUsers(users);
-        this.setState(this);
+        if (this.queue != null) {
+            this.queue.setUsers(users);
+            this.setState(this);
+        }
     }
     setTracks = (tracks) => {
-        this.queue.setTracks(tracks);
-        this.setState(this);
+        if (this.queue != null) {
+            this.queue.setTracks(tracks);
+            this.setState(this);
+        }
     }
     setPlayer = (player) => {
-        this.queue.setPlayer(player);
-        this.setState(this);
+        if (this.queue != null) {
+            this.queue.setPlayer(player);
+            this.setState(this);
+        }
     }
     getNewAccessToken = (cb) => {
-        this.user.getNewAccessToken(() => {
-            return cb(this);
-        });
+        if (this.user != null) {
+            this.user.getNewAccessToken(() => {
+                this.setState(this);
+                return cb(this);
+            });
+        }
     }
 }
 

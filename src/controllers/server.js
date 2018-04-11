@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "https://squadify.herokuapp.com";
+const url = /*"http://10.0.0.252:4200";*/"https://squadify.herokuapp.com";
 
 var server = {
     url: url,
@@ -108,58 +108,7 @@ var server = {
             //console.log("CREATE QUEUE:");
             //console.dir(error);
         });
-    },/*
-    getUsers: function (user_id, queue_id, server_token, cb) {
-        axios.get(url + '/api/queue/' + queue_id + '/users', {
-            params: {
-                user_id: user_id,
-                server_token: server_token
-            }
-        }).then(function (response) {
-            console.dir(response);
-            return cb(response.data);
-        }).catch(function (error) {
-            console.dir(error);
-        });
     },
-    changeOrder: function (user_id, queue_id, snapshot_id, old_index, new_index, server_token, cb) {
-        axios.put(url + '/api/queue/' + queue_id + '/tracks', {
-            user_id: user_id,
-            snapshot_id: snapshot_id,
-            old_index: old_index,
-            new_index: new_index,
-            server_token: server_token
-        }).then(function (response) {
-            console.dir(response);
-            return cb(response.data);
-        }).catch(function (error) {
-            console.dir(error);
-        });
-    },
-    addSong: function (user_id, queue_id, track_uri, server_token, cb) {
-        axios.post(url + '/api/queue/' + queue_id + '/tracks', {
-            user_id: user_id,
-            track_uri: track_uri,
-            server_token: server_token
-        }).then(function (response) {
-            console.dir(response);
-            return cb(response.data);
-        }).catch(function (error) {
-            console.dir(error);
-        });
-    },
-    playSong: function(user_id, queue_id, server_token) {
-        axios.put(url + '/api/queue/' + queue_id + '/play', {
-            user_id: user_id,
-            server_token: server_token
-        });
-    },
-    pauseSong: function(user_id, queue_id, server_token) {
-        axios.put(url + '/api/queue/' + queue_id + '/pause', {
-            user_id: user_id,
-            server_token: server_token
-        });
-    },*/
     refreshToken: function (refresh_token, cb) {
         axios.post(url + '/api/tokens/refresh', {
             refresh_token: refresh_token

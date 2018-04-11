@@ -32,18 +32,6 @@ module.exports = {
                                     refresh_token: tokens.body.refresh_token,
                                     server_token: user.server_token
                                 });
-                                /*res.cookie.user_id = profile.body.id;
-                                res.cookie.access_token = tokens.body.access_token;
-                                res.cookie.refresh_token = tokens.body.refresh_token;
-                                res.cookie.server_token = user.server_token;*/
-                                /*
-                                req.universalCookies.remove("io");
-                                req.universalCookies.set("Squadify", {
-                                    user_id: profile.body.id,
-                                    access_token: tokens.body.access_token,
-                                    refresh_token: tokens.body.refresh_token,
-                                    server_token: user.server_token
-                                }, {path: "/", domain: process.env.SUB_DOMAIN});*/
                                 console.log("Created cookie for " + profile.body.id);
                                 res.redirect(process.env.CLIENT_URL);
                             });

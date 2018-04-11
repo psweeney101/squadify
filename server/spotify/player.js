@@ -19,17 +19,17 @@ var Player = {
             });
         });
     },
-    play: function(access_token, refresh_token, uri, device_id, cb) {//function(access_token, refresh_token, user_id, playlist_id, device_id, cb) {
+    play: function(access_token, refresh_token, uri, device_id, cb) {
         var options = {
             url: baseURL + '/v1/me/player/play',
-            body: JSON.stringify({
-                uris: [uri]
-            }),
             headers: {
                 'Authorization': 'Bearer ' + access_token,
                 'Content-Type': 'application/json'
             }
         };
+        if(uri != null) {
+            options.body = JSON.stringify({uris: [uri]});
+        }
         if(device_id != null) {
             options.url += "?device_id=" + device_id;
         }
@@ -37,6 +37,22 @@ var Player = {
             Response(error, response, body, [204], refresh_token, cb, (newToken) => {
                 if(newToken != null) {
                     Player.play(newToken, refresh_token, uri, device_id, cb);
+                }
+            });
+        });
+    },
+    pause: function(access_token, refresh_token, cb) {
+        var options = {
+            url: baseURL + '/v1/me/player/pause',
+            headers: {
+                'Authorization': 'Bearer ' + access_token,
+                'Content-Type': 'application/json'
+            }
+        };
+        request.put(options, function (error, response, body) {
+            Response(error, response, body, [204], refresh_token, cb, (newToken) => {
+                if(newToken != null) {
+                    Player.pause(newToken, refresh_token, cb);
                 }
             });
         });

@@ -21,7 +21,7 @@ class App extends React.Component {
         socket.emit("join", props.Squadify);
         // GET INIT QUEUE INFO
         socket.on("joined", (info) => {
-            console.log("welcome!");
+            //console.log("welcome!");
             //console.log("SOCKET INIT:");
             props.Squadify.setInfo(info);
         });
@@ -50,6 +50,9 @@ class App extends React.Component {
         });
         socket.on("reconnect", () => {
             socket.emit("join", props.Squadify);
+        });
+        socket.on("disconnect", () => {
+            props.Squadify.setStatus("inactive");
         });
         this.pages = {
             getPage: () => {

@@ -25,7 +25,7 @@ var queueSchema = new Schema({
     // ACTIVE IF PLAYING, INACTIVE IF NOT PLAYING, DISABLED IF DELETED
     status: {
         type: String,
-        enum: ['active', 'inactive', 'disabled'],
+        enum: ['active', 'inactive', 'disabled', "reconnecting"],
         default: 'inactive'
     },
     // ID OF THE SERVER-SIDE INTERVAL LISTENING FOR CHANGES ON HOST'S DEVICE

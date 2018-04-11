@@ -8,9 +8,8 @@ var ObjectId = require("mongoose").Types.ObjectId;
 exports = module.exports = function (io) {
     io.sockets.on("connection", function (socket) {
         socket.on("disconnect", function() {
-            console.dir(socket.clientId);
+            console.dir("Goodbye: " + socket.clientId);
         });
-
         /* INITIALIZE SOCKET WITH USER
          * @params Squadify object
          * STEPS:
@@ -164,22 +163,60 @@ exports = module.exports = function (io) {
         socket.on("up next track", function (Squadify, id) {
             if (Squadify != null && Squadify.user != null && Squadify.queue != null && id != null) {
                 db.checkUser(Squadify.queue.id, Squadify.user.id, Squadify.user.server_token, (good, queue, user) => {
-                    if (!queue.tracks.some(e => e.id == id)) {
-                        Spotify.Tracks.getTrack(queue.host.access_token, queue.host.refresh_token, id, (track) => {
-                            queue.tracks.unshift({
-                                id: id,
-                                added_by: user,
-                                name: track.body.name,
-                                artist: track.body.artists[0] != null ? track.body.artists[0].name : null
-                            });
-                            queue.save((err, queue) => {
-                                console.log(user.id + " added up next " + id);
-                                io.to(queue.id).emit("tracks updated", queue.tracks);
+                    if(good) {
+                        if (!queue.tracks.some(e => e.id == id)) {
+                            Spotify.Tracks.getTrack(queue.host.access_token, queue.host.refresh_token, id, (track) => {
+                                queue.tracks.unshift({
+                                    id: id,
+                                    added_by: user,
+                                    name: track.body.name,
+                                    artist: track.body.artists[0] != null ? track.body.artists[0].name : null
+                                });
+                                queue.save((err, queue) => {
+                                    console.log(user.id + " added up next " + id);
+                                    io.to(queue.id).emit("tracks updated", queue.tracks);
+                                })
                             })
-                        })
+                        }
                     }
                 });
             }
+        });
+
+        socket.on("stop", function(Squadify) {
+            if (Squadify != null && Squadify.user != null && Squadify.queue != null) {
+                db.checkUser(Squadify.queue.id, Squadify.user.id, Squadify.user.server_token, (good, queue, user) => {
+                    if(good && queue.host.id == user.id) {
+                        Queue.findOneAndUpdate({id: queue.id}, {status: "inactive"}, (err, doc, res) => {
+                            io.to(queue.id).emit("status updated", "inactive");
+                        });
+                    }
+                });
+            }
+        });
+
+        socket.on("play", function(Squadify) {
+            if (Squadify != null && Squadify.user != null && Squadify.queue != null) {
+                db.checkUser(Squadify.queue.id, Squadify.user.id, Squadify.user.server_token, (good, queue, user) => {
+                    if(good && queue.host.id == user.id) {
+                        Spotify.Player.play(queue.host.access_token, queue.host.refresh_token, null, null, (response) => {
+                            console.dir(response);
+                        })
+                    }
+                });
+            }  
+        });
+
+        socket.on("pause", function(Squadify) {
+            if (Squadify != null && Squadify.user != null && Squadify.queue != null) {
+                db.checkUser(Squadify.queue.id, Squadify.user.id, Squadify.user.server_token, (good, queue, user) => {
+                    if(good && queue.host.id == user.id) {
+                        Spotify.Player.pause(queue.host.access_token, queue.host.refresh_token, (response) => {
+                            console.dir(response);
+                        })
+                    }
+                });
+            }  
         });
 
         /* REMOVE A SONG FROM THE QUEUE
@@ -247,12 +284,22 @@ exports = module.exports = function (io) {
                                 Spotify.Player.play(queue.host.access_token, queue.host.refresh_token, "spotify:track:" + curr_track_id, device_id, (play) => {
                                     console.log(`STARTED PLAYING`);
                                     if (!play.error) {
+                                        var numAttempts = 0;
                                         // STEP 4
-                                        var interval = setInterval(() => QueueManager(queue.id, interval_id, curr_track_id, io, (shouldEnd, new_track_id) => {
+                                        var interval = setInterval(() => QueueManager(queue.id, interval_id, curr_track_id, io, numAttempts, (shouldEnd, new_track_id, newNumAttemps) => {
                                             if (shouldEnd) {
-                                                clearInterval(interval);
-                                                return;
+                                                if(newNumAttemps >= 5) {
+                                                    clearInterval(interval);
+                                                } else {
+                                                    console.log("Let's retry that..." + newNumAttemps);
+                                                    io.to(queue.id).emit("status updated", "reconnecting");
+                                                    numAttempts = newNumAttemps;
+                                                }
                                             } else {
+                                                if(numAttempts != 0) {
+                                                    numAttempts = 0;
+                                                    io.to(queue.id).emit("status updated", "active");
+                                                }
                                                 curr_track_id = new_track_id;
                                             }
                                         }), 2000);
@@ -286,20 +333,24 @@ exports = module.exports = function (io) {
  * 4) Remove first track from DB
  * 5) Play that track on Spotify and REPEAT
  */
-function QueueManager(queue_id, interval_id, init_track_id, io, cb) {
+function QueueManager(queue_id, interval_id, init_track_id, io, numAttempts, cb) {
     var curr_track_id = init_track_id
     Queue.findOne({ id: queue_id }).populate("host").populate("tracks.added_by").exec((error, queue) => {
         // STEP 1
         console.log(`COMPARING THIS ${interval_id} TO ${queue.interval_id}`);
         if (queue.interval_id != interval_id || queue.status != "active") {
-            return cb(true, null);
+            console.log("new interval or inactive on DB");
+            return cb(true, null, 5);
         } else {
             // STEP 2
             Spotify.Player.getCurrentPlayer(queue.host.access_token, queue.host.refresh_token, (player) => {
                 if (player == null || player.body == null || player.body.item == null || player.body.item.id != curr_track_id) {
                     console.log("HOST WENT INACTIVE! Player went to null OR different track");
-                    setInactive(queue.id, io);
-                    return cb(true, null);
+                    console.dir(player);
+                    if(numAttempts + 1 >=  5) {
+                        setInactive(queue.id, io);
+                    }
+                    return cb(true, null, numAttempts + 1);
                 } else {
                     io.to(queue.id).emit("player updated", player.body);
                     // STEP 3
@@ -318,20 +369,22 @@ function QueueManager(queue_id, interval_id, init_track_id, io, cb) {
                                             return cb(false, new_track_id);
                                         } else {
                                             console.log("HOST WENT INACTIVE! Error in step 5 (player.error)");
-                                            setInactive(queue.id, io);
-                                            return cb(true, null);
+                                            if(numAttempts + 1 >= 5) {
+                                                setInactive(queue.id, io);
+                                            }
+                                            return cb(true, null, numAttempts + 1);
                                         }
                                     });
                                 } else {
                                     console.log("HOST WENT INACTIVE! Error in step 4bb (error in update)");
                                     setInactive(queue.id, io);
-                                    return cb(true, null);
+                                    return cb(true, null, 5);
                                 }
                             });
                         } else {
                             console.log("HOST WENT INACTIVE! Error in step 4ba (Out of tracks)");
                             setInactive(queue.id, io);
-                            return cb(true, null);
+                            return cb(true, null, 5);
                         }
                     } else {
                         console.log("KEEP GOING!");
@@ -348,3 +401,7 @@ function setInactive(queue_id, io) {
         io.to(queue_id).emit("status updated", "inactive");
     });
 }
+
+Queue.updateMany({status: "active"}, {status: "inactive"}, () => {
+
+});
