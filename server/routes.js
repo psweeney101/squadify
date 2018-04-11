@@ -33,9 +33,8 @@ module.exports = function (app) {
     app.route("/api/queue/:queue_id/join").post(Queue.joinQueue);
 
     app.use(function (req, res, next) {
-        res.status(404);
-        if (req.accepts('html')) {
-            res.redirect(redirectURL);
+        if (req.accepts("html")) {
+            res.redirect("/");
         }
         else {
             res.send({ error: true, why: 'Page not found' });
