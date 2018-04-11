@@ -21,10 +21,9 @@ app.use((req, res, next) => {
     next();
 });
 
-//app.use("/", express.static("./build"));
-//app.use("/queues", express.static("./build"));
-//app.use("/queue/:queue_id", express.static("./build"));
-//app.use("/logout", express.static("./build"));
+if(process.env.PRODUCTION != "TRUE") {
+    app.use("/", express.static("./build"));
+}
 
 var server = require("http").Server(app);
 var io = require("socket.io").listen(server);
@@ -32,7 +31,7 @@ app.io = io;
 server.listen(port);
 console.log("Listening on " + port);
 require("./server/routes")(app);
-require('./server/socket')(io, app);
+require('./server/socket')(io);
 
 mongoose.connect(process.env.DB_URL, function (error) {
     if (error) throw error;
