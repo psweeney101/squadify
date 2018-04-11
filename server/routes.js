@@ -15,6 +15,11 @@ module.exports = function (app) {
     // ROUTER
     app.route("/api/router").get(Router.router);
     app.route("/api/router/queue/:queue_id").get(Router.tryQueue);
+    app.get("/logout", (req,res) => {
+        console.log("Logging out!");
+        res.cookie("Squadify", null);
+        res.redirect("/");
+    });
 
     // USER
     app.route("/api/user/queue/:queue_id/check").get(User.checkIfInQueue);
@@ -26,9 +31,14 @@ module.exports = function (app) {
     // QUEUE
     app.route("/api/queue").post(Queue.createQueue);
     app.route("/api/queue/:queue_id/join").post(Queue.joinQueue);
-    app.get("/logout", (req,res) => {
-        console.log("Logging out!");
-        res.cookie("Squadify", null);
-        res.redirect("/");
+
+    app.use(function (req, res, next) {
+        res.status(404);
+        if (req.accepts('html')) {
+            res.redirect(redirectURL);
+        }
+        else {
+            res.send({ error: true, why: 'Page not found' });
+        }
     });
 }
