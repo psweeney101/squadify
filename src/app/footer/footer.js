@@ -9,23 +9,26 @@ class Footer extends React.Component {
         this.state = {
             width: 0
         }
-    }
-    componentWillReceiveProps(props) {
-        if (props.Squadify.queue.player != null) {
-            this.setState({ width: (props.Squadify.queue.player.progress_ms / props.Squadify.queue.player.item.duration_ms) * 100 + "%" });
-            if (props.Squadify.queue.player.is_playing) {
-                var counter = 0;
-                var time_delay = 250;
-                var interval = setInterval(() => {
-                    if (counter < ((2000 / time_delay) - 1) && props.Squadify.queue != null) {
-                        this.setState({ width: ((props.Squadify.queue.player.progress_ms + (time_delay * (counter + 1))) / props.Squadify.queue.player.item.duration_ms) * 100 + "%" });
-                        counter++;
-                    } else {
-                        clearInterval(interval);
-                    }
-                }, time_delay);
+        props.socket.on("player updated", (player) => {
+            if (player != null && player.item != null) {
+                this.setState({ width: (player.progress_ms / player.item.duration_ms) * 100 + "%" });
+                if (player.is_playing) {
+                    var counter = 0;
+                    var time_delay = 250;
+                    var start = new Date();
+                    var interval = setInterval(() => {
+                        if (counter < ((2000 / time_delay) - 1) && (new Date() - start <= 2000)) {
+                            this.setState({ width: ((player.progress_ms + (time_delay * (counter + 1))) / player.item.duration_ms) * 100 + "%" });
+                            counter++;
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, time_delay);
+                }
+            } else {
+                this.setState({ width: 0 });
             }
-        }
+        });
     }
     render() {
         this.top = null;

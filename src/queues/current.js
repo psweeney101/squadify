@@ -52,7 +52,7 @@ class Join extends React.Component {
                                 return (
                                     <div className="row" style={row} key={queue.id} onClick={this.openQueue.bind(null, queue.id)}>
                                         <div className="three wide column" style={column}>
-                                            {queue.status === "active" ? <i class="green large circle icon"></i> : <i class="red large circle icon"></i> }
+                                            {queue.status === "active" ? <i className="green large circle icon"></i> : <i className="red large circle icon"></i> }
                                         </div>
                                         <div className="eleven wide column" style={col}>
                                             <span style={name}>{queue.name}</span><br />

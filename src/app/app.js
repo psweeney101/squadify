@@ -52,7 +52,7 @@ class App extends React.Component {
             socket.emit("join", props.Squadify);
         });
         socket.on("disconnect", () => {
-            props.Squadify.setStatus("inactive");
+            props.Squadify.setStatus("reconnecting");
         });
         this.pages = {
             getPage: () => {
