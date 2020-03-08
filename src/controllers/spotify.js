@@ -78,7 +78,7 @@ var Spotify = {
         });
     },
     getPlaylist: function(Squadify, owner_id, playlist_id, cb) {
-        axios.get(url + '/users/' + owner_id + '/playlists/' + playlist_id, {
+        axios.get(url + '/playlists/' + playlist_id, {
             headers: {
                 'Authorization': 'Bearer ' + Squadify.user.access_token
             }

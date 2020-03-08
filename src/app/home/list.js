@@ -12,7 +12,7 @@ class List extends React.Component {
         }
         this.context = null;
         if (props.Squadify.queue.tracks != null && props.Squadify.queue.tracks.some(e => {if(e.context !== "Queued") {this.context = e.context; return true;}else return false;})) {
-            props.Squadify.getPlaylist(this.context.split(":")[2], this.context.split(":")[4], (playlist) => {
+            props.Squadify.getPlaylist(this.context.split(":")[2], this.context.split(":")[2], (playlist) => {
                 this.setState({
                     context_name: playlist.name,
                     context_uri: playlist.uri
@@ -21,7 +21,7 @@ class List extends React.Component {
         }
         this.goToContext = () => {
             props.pages.addPage(
-                <ShowPlaylist owner_id={this.state.context_uri.split(":")[2]} id={this.state.context_uri.split(":")[4]} Squadify={props.Squadify} socket={props.socket} pages={props.pages} />
+                <ShowPlaylist owner_id={this.state.context_uri.split(":")[2]} id={this.state.context_uri.split(":")[2]} Squadify={props.Squadify} socket={props.socket} pages={props.pages} />
             )
         }
         this.List = SortableContainer(() => {
