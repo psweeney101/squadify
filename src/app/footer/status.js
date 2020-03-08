@@ -106,7 +106,8 @@ var wrapper = {
     height: "40px",
     borderBottomStyle: "solid",
     borderBottomWidth: "1px",
-    borderBottomColor: "#888"
+    borderBottomColor: "#888",
+    padding: "0"
 }
 
 var column = {
