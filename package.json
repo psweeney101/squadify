@@ -31,7 +31,7 @@
     "socket.io-client": "^1.7.0",
     "sortablejs": "^1.5.0-rc1",
     "universal-cookie-express": "^2.1.2",
-    "yarn": "^1.3.2"
+    "yarn": "^1.22.0"
   },
   "scripts": {
     "start": "node app.js",
